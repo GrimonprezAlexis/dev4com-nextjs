@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Optimizations
+Disallow: /admin
+Disallow: /api/
+Disallow: /private/
+Disallow: /*?*
+
+# Sitemaps
+Sitemap: https://dev4com.com/sitemap.xml
