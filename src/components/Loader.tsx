@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Particles from "react-tsparticles";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [loadingText, setLoadingText] = useState("INITIALIZING");
@@ -145,10 +146,13 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
           transition={{ duration: 1, ease: "easeOut" }}
           className="mb-8"
         >
-          <img
+          <Image
             src="/images/logo.png"
             alt="Logo"
-            className="w-48 h-48 object-contain"
+            width={192} // equals w-48
+            height={192} // equals h-48
+            className="object-contain"
+            priority
           />
         </motion.div>
 
