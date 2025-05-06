@@ -2,6 +2,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ChatBot from "@/components/Chatbot";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -87,7 +88,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
       </head>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          {children}
+          <ChatBot />
+        </AuthProvider>
       </body>
     </html>
   );
