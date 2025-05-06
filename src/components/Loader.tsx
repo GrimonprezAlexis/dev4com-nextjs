@@ -95,7 +95,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     setTimeout(() => {
       onComplete();
       router.push("/");
-    }, 500);
+    }, 100);
   };
 
   return (

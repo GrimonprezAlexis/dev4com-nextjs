@@ -199,7 +199,7 @@ export const sendEmail = async (data: EmailData) => {
 
   // Send email to admin
   const adminMailOptions = {
-    from: process.env.SMTP_USER,
+    from: `Confirmation de réception - DEV4COM <${process.env.SMTP_USER}>`,
     to: process.env.CONTACT_EMAIL,
     subject: `Nouveau message de ${data.name}: ${data.subject}`,
     html: adminEmailTemplate(data),

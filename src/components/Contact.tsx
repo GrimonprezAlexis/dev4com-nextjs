@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react";
 
@@ -15,6 +15,19 @@ const Contact: React.FC = () => {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  // Pre-fill form with default values
+  useEffect(() => {
+    const defaultValues = {
+      name: "",
+      email: "",
+      subject: "Demande de devis pour un site web",
+      message:
+        "Bonjour,\n\nJe souhaite obtenir un devis pour la création d'un site web professionnel.\n\nCordialement,\n",
+    };
+
+    setFormState(defaultValues);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +57,7 @@ const Contact: React.FC = () => {
 
       setTimeout(() => {
         setStatus("idle");
-      }, 2000);
+      }, 10_000);
     } catch (error) {
       setStatus("error");
       setErrorMessage("Une erreur est survenue. Veuillez réessayer plus tard.");
