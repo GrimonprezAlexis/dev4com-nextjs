@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Particles from "react-tsparticles";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
-  const [progress, setProgress] = useState(0);
-  const [loadingText, setLoadingText] = useState("LOADING_SYSTEM");
+  const [loadingText, setLoadingText] = useState("INITIALIZING");
   const [loadingPercent, setLoadingPercent] = useState(0);
   const [showButton, setShowButton] = useState(false);
   const [displayText, setDisplayText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const navigate = useNavigate();
+  const [progress, setProgress] = useState(0);
+  const router = useRouter();
 
   const englishText = "Crafting Digital Excellence";
   const frenchText = "Créer l'excellence numérique";
@@ -37,9 +39,9 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   useEffect(() => {
     if (showButton) {
       const animateText = async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Initial delay
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         await eraseText();
-        await new Promise((resolve) => setTimeout(resolve, 500)); // Pause between texts
+        await new Promise((resolve) => setTimeout(resolve, 500));
         await typeText(frenchText);
       };
       animateText();
@@ -50,7 +52,6 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     const textInterval = setInterval(() => {
       setLoadingText((prev) => {
         const texts = [
-          "LOADING_SYSTEM",
           "INITIALIZING",
           "CONNECTING_DB",
           "LOADING_ASSETS",
@@ -59,7 +60,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
         const currentIndex = texts.indexOf(prev);
         return texts[(currentIndex + 1) % texts.length];
       });
-    }, 1500);
+    }, 800);
 
     return () => clearInterval(textInterval);
   }, []);
@@ -68,7 +69,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     const timer = setInterval(() => {
       if (progress < 100) {
         setProgress((prev) => {
-          const increment = Math.random() * 23;
+          const increment = Math.random() * 50;
           const newProgress = prev + increment;
           setLoadingPercent(Math.min(Math.round(newProgress), 100));
           return newProgress >= 99 ? 100 : newProgress;
@@ -77,15 +78,14 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
         clearInterval(timer);
         setTimeout(() => {
           setShowButton(true);
-        }, 800);
+        }, 300);
       }
     }, 180);
 
     return () => clearInterval(timer);
-  }, [progress, onComplete]);
+  }, [progress]);
 
   useEffect(() => {
-    // Initial text animation
     typeText(englishText);
   }, []);
 
@@ -93,7 +93,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     setShowButton(false);
     setTimeout(() => {
       onComplete();
-      navigate("/");
+      router.push("/");
     }, 500);
   };
 
@@ -233,7 +233,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
                 duration: 0.8,
               }}
               onClick={handleEnter}
-              className="mt-24 relative group"
+              className="mt-10 relative group"
             >
               {/* Gradient border background */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300" />

@@ -1,45 +1,109 @@
-import React from 'react';
-import { Globe, Bell, Shield, Database } from 'lucide-react';
+import React, { useState } from "react";
+import { Globe, Bell, Shield, Database } from "lucide-react";
+
+interface Setting {
+  id: string;
+  label: string;
+  type: "text" | "textarea" | "toggle" | "number";
+  value: string | boolean;
+}
+
+interface SettingsSection {
+  icon: JSX.Element;
+  title: string;
+  description: string;
+  settings: Setting[];
+}
 
 const SettingsPanel: React.FC = () => {
-  const settingsSections = [
+  const [settingsSections, setSettingsSections] = useState<SettingsSection[]>([
     {
       icon: <Globe size={20} />,
-      title: 'Général',
-      description: 'Paramètres généraux du site',
+      title: "Général",
+      description: "Paramètres généraux du site",
       settings: [
-        { id: 'site-name', label: 'Nom du site', type: 'text', value: 'DM Development' },
-        { id: 'site-desc', label: 'Description', type: 'textarea', value: 'Agence de développement web' },
-      ]
+        {
+          id: "site-name",
+          label: "Nom du site",
+          type: "text",
+          value: "DM Development",
+        },
+        {
+          id: "site-desc",
+          label: "Description",
+          type: "textarea",
+          value: "Agence de développement web",
+        },
+      ],
     },
     {
       icon: <Bell size={20} />,
-      title: 'Notifications',
-      description: 'Gérer les notifications',
+      title: "Notifications",
+      description: "Gérer les notifications",
       settings: [
-        { id: 'email-notif', label: 'Notifications par email', type: 'toggle', value: true },
-        { id: 'contact-notif', label: 'Alertes formulaire de contact', type: 'toggle', value: true },
-      ]
+        {
+          id: "email-notif",
+          label: "Notifications par email",
+          type: "toggle",
+          value: true,
+        },
+        {
+          id: "contact-notif",
+          label: "Alertes formulaire de contact",
+          type: "toggle",
+          value: true,
+        },
+      ],
     },
     {
       icon: <Shield size={20} />,
-      title: 'Sécurité',
-      description: 'Paramètres de sécurité',
+      title: "Sécurité",
+      description: "Paramètres de sécurité",
       settings: [
-        { id: '2fa', label: 'Authentification à deux facteurs', type: 'toggle', value: false },
-        { id: 'session-timeout', label: 'Expiration de session (minutes)', type: 'number', value: '30' },
-      ]
+        {
+          id: "2fa",
+          label: "Authentification à deux facteurs",
+          type: "toggle",
+          value: false,
+        },
+        {
+          id: "session-timeout",
+          label: "Expiration de session (minutes)",
+          type: "number",
+          value: "30",
+        },
+      ],
     },
     {
       icon: <Database size={20} />,
-      title: 'Système',
-      description: 'Paramètres système',
+      title: "Système",
+      description: "Paramètres système",
       settings: [
-        { id: 'maintenance', label: 'Mode maintenance', type: 'toggle', value: false },
-        { id: 'debug', label: 'Mode debug', type: 'toggle', value: false },
-      ]
-    }
-  ];
+        {
+          id: "maintenance",
+          label: "Mode maintenance",
+          type: "toggle",
+          value: false,
+        },
+        {
+          id: "debug",
+          label: "Mode debug",
+          type: "toggle",
+          value: false,
+        },
+      ],
+    },
+  ]);
+
+  const handleSettingChange = (
+    sectionIndex: number,
+    settingIndex: number,
+    newValue: string | boolean
+  ) => {
+    const newSections = [...settingsSections];
+    newSections[sectionIndex].settings[settingIndex].value = newValue;
+    setSettingsSections(newSections);
+  };
 
   return (
     <div className="space-y-6">
@@ -48,7 +112,7 @@ const SettingsPanel: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {settingsSections.map((section) => (
+        {settingsSections.map((section, sectionIndex) => (
           <div
             key={section.title}
             className="bg-black/20 rounded-lg border border-white/5 p-6"
@@ -64,26 +128,45 @@ const SettingsPanel: React.FC = () => {
             </div>
 
             <div className="space-y-4">
-              {section.settings.map((setting) => (
-                <div key={setting.id} className="flex items-center justify-between">
+              {section.settings.map((setting, settingIndex) => (
+                <div
+                  key={setting.id}
+                  className="flex items-center justify-between"
+                >
                   <label htmlFor={setting.id} className="text-sm">
                     {setting.label}
                   </label>
-                  {setting.type === 'toggle' ? (
+                  {setting.type === "toggle" ? (
                     <button
+                      onClick={() =>
+                        handleSettingChange(
+                          sectionIndex,
+                          settingIndex,
+                          !setting.value
+                        )
+                      }
                       className={`w-12 h-6 rounded-full p-1 transition-colors ${
-                        setting.value ? 'bg-blue-500' : 'bg-gray-700'
+                        setting.value ? "bg-blue-500" : "bg-gray-700"
                       }`}
                     >
-                      <div className={`w-4 h-4 rounded-full bg-white transform transition-transform ${
-                        setting.value ? 'translate-x-6' : 'translate-x-0'
-                      }`} />
+                      <div
+                        className={`w-4 h-4 rounded-full bg-white transform transition-transform ${
+                          setting.value ? "translate-x-6" : "translate-x-0"
+                        }`}
+                      />
                     </button>
                   ) : (
                     <input
                       type={setting.type}
                       id={setting.id}
-                      value={setting.value}
+                      value={setting.value.toString()}
+                      onChange={(e) =>
+                        handleSettingChange(
+                          sectionIndex,
+                          settingIndex,
+                          e.target.value
+                        )
+                      }
                       className="bg-black/30 border border-white/10 rounded px-3 py-1 text-sm focus:outline-none focus:border-blue-500"
                     />
                   )}
@@ -95,6 +178,6 @@ const SettingsPanel: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default SettingsPanel;

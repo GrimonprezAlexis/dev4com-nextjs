@@ -44,7 +44,7 @@ const Contact: React.FC = () => {
 
       setTimeout(() => {
         setStatus("idle");
-      }, 3000);
+      }, 2000);
     } catch (error) {
       setStatus("error");
       setErrorMessage("Une erreur est survenue. Veuillez réessayer plus tard.");
@@ -83,7 +83,7 @@ const Contact: React.FC = () => {
     {
       icon: <Mail size={24} />,
       title: "Email",
-      value: "contact@dm-dev.com",
+      value: "contact@dev4com.com",
       delay: 0.2,
     },
     {
@@ -123,7 +123,7 @@ const Contact: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <motion.div variants={containerVariants}>
             <div className="grid gap-8">
-              {contactInfo.map((info, index) => (
+              {contactInfo.map((info) => (
                 <motion.div
                   key={info.title}
                   className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-xl"
@@ -225,7 +225,7 @@ const Contact: React.FC = () => {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-red-400 text-sm"
+                  className="text-red-400 text-sm bg-red-400/10 border border-red-400/20 rounded-lg p-3"
                 >
                   {errorMessage}
                 </motion.div>
@@ -235,9 +235,10 @@ const Contact: React.FC = () => {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-green-400 text-sm"
+                  className="text-green-400 text-sm bg-green-400/10 border border-green-400/20 rounded-lg p-3"
                 >
-                  Message envoyé avec succès !
+                  Message envoyé avec succès ! Vous recevrez bientôt un email de
+                  confirmation.
                 </motion.div>
               )}
 

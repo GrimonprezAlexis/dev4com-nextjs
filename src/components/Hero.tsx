@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import HeroServices from "./HeroServices";
 
 const Hero: React.FC = () => {
@@ -67,14 +68,14 @@ const Hero: React.FC = () => {
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.5 }}
               >
-                <motion.img
+                <Image
                   src={section.image}
                   alt={section.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{ objectPosition: "center" }}
-                  initial={{ scale: 1.2 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 1.5 }}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  priority={index < 2}
+                  quality={75}
                 />
               </motion.div>
 

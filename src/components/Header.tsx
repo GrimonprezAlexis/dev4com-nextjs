@@ -29,9 +29,9 @@ const Header: React.FC = () => {
   ];
 
   const socialLinks = [
-    { Icon: Facebook, href: "#" },
-    { Icon: Twitter, href: "#" },
-    { Icon: Linkedin, href: "#" },
+    { Icon: Facebook, href: "#", label: "Facebook" },
+    { Icon: Twitter, href: "#", label: "Twitter" },
+    { Icon: Linkedin, href: "#", label: "LinkedIn" },
   ];
 
   return (
@@ -44,7 +44,7 @@ const Header: React.FC = () => {
       transition={{ delay: 0.2, duration: 0.6 }}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/">
+        <Link href="/" aria-label="Retour à l'accueil">
           <motion.div
             className="w-16 h-16 relative"
             whileHover={{ scale: 1.05 }}
@@ -52,7 +52,7 @@ const Header: React.FC = () => {
           >
             <img
               src="/images/logo.png"
-              alt="Logo"
+              alt="Logo DEV4COM"
               className="w-full h-full object-contain"
             />
           </motion.div>
@@ -69,6 +69,7 @@ const Header: React.FC = () => {
                   ? "text-white"
                   : "text-gray-400 hover:text-white"
               }`}
+              aria-current={pathname === item.path ? "page" : undefined}
             >
               {item.label}
             </Link>
@@ -77,10 +78,11 @@ const Header: React.FC = () => {
 
         {/* Desktop Social Links */}
         <div className="hidden md:flex space-x-4">
-          {socialLinks.map(({ Icon, href }, index) => (
+          {socialLinks.map(({ Icon, href, label }, index) => (
             <motion.a
               key={index}
               href={href}
+              aria-label={`Suivez-nous sur ${label}`}
               whileHover={{ scale: 1.2, color: "#ffffff" }}
               className="text-gray-400 hover:text-white transition-colors"
             >
@@ -93,6 +95,8 @@ const Header: React.FC = () => {
         <button
           className="md:hidden text-gray-400 hover:text-white transition-colors"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={isMenuOpen}
         >
           <Menu size={24} />
         </button>
@@ -109,16 +113,21 @@ const Header: React.FC = () => {
             >
               <div className="flex flex-col h-full p-6">
                 <div className="flex justify-between items-center mb-8">
-                  <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                  <Link
+                    href="/"
+                    onClick={() => setIsMenuOpen(false)}
+                    aria-label="Retour à l'accueil"
+                  >
                     <img
                       src="/images/logo.png"
-                      alt="Logo"
+                      alt="Logo DEV4COM"
                       className="w-16 h-16 object-contain"
                     />
                   </Link>
                   <button
                     onClick={() => setIsMenuOpen(false)}
                     className="text-gray-400 hover:text-white transition-colors"
+                    aria-label="Fermer le menu"
                   >
                     <X size={24} />
                   </button>
@@ -135,6 +144,7 @@ const Header: React.FC = () => {
                           ? "text-white"
                           : "text-gray-400 hover:text-white"
                       }`}
+                      aria-current={pathname === item.path ? "page" : undefined}
                     >
                       {item.label}
                     </Link>
@@ -143,10 +153,11 @@ const Header: React.FC = () => {
 
                 <div className="mt-auto">
                   <div className="flex justify-center space-x-6">
-                    {socialLinks.map(({ Icon, href }, index) => (
+                    {socialLinks.map(({ Icon, href, label }, index) => (
                       <motion.a
                         key={index}
                         href={href}
+                        aria-label={`Suivez-nous sur ${label}`}
                         whileHover={{ scale: 1.2, color: "#ffffff" }}
                         className="text-gray-400 hover:text-white transition-colors"
                       >

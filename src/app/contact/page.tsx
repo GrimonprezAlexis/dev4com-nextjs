@@ -1,12 +1,18 @@
-import Header from '@/components/Header';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
+"use client";
+
+import { Suspense } from "react";
+import Header from "@/components/Header";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
+import Loading from "@/app/loading";
 
 export default function ContactPage() {
   return (
     <main className="tech-pattern-bg min-h-screen text-white">
       <Header />
-      <Contact />
+      <Suspense fallback={<Loading />}>
+        <Contact />
+      </Suspense>
       <Footer />
     </main>
   );
