@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap",
-    "prepare": "husky install"
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "critters": "^0.0.25",
@@ -29,15 +28,15 @@
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
-    "@types/node": "^20.11.20",
+    "@types/node": "20.17.43",
     "@types/nodemailer": "^6.4.17",
-    "@types/react": "^18.3.5",
+    "@types/react": "18.3.21",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.18",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.5.3"
+    "typescript": "5.8.3"
   }
 }
