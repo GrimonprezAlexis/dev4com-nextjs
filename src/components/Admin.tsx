@@ -2,9 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, User, Settings, BarChart, Mail, LogOut, FolderKanban } from 'lucide-react';
+import { Lock, User, Settings, Mail, LogOut, FolderKanban } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import DashboardHome from './admin/DashboardHome';
 import ProjectsManager from './admin/ProjectsManager';
 import SettingsPanel from './admin/SettingsPanel';
 
@@ -12,7 +11,7 @@ const Admin: React.FC = () => {
   const { user, signIn, signUp, signOut, error, clearError } = useAuth();
   const [isRegistering, setIsRegistering] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: '', password: '', displayName: '' });
-  const [currentSection, setCurrentSection] = useState('dashboard');
+  const [currentSection, setCurrentSection] = useState('projects');
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +53,6 @@ const Admin: React.FC = () => {
   };
 
   const adminSections = [
-    { id: 'dashboard', icon: <BarChart size={24} />, title: 'Tableau de bord', component: DashboardHome },
     { id: 'projects', icon: <FolderKanban size={24} />, title: 'Projets', component: ProjectsManager },
     { id: 'settings', icon: <Settings size={24} />, title: 'Paramètres', component: SettingsPanel },
   ];
@@ -186,7 +184,7 @@ const Admin: React.FC = () => {
     );
   }
 
-  const CurrentComponent = adminSections.find(section => section.id === currentSection)?.component || DashboardHome;
+  const CurrentComponent = adminSections.find(section => section.id === currentSection)?.component || ProjectsManager;
 
   return (
     <motion.div

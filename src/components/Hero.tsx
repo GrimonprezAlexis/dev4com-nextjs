@@ -9,11 +9,11 @@ import HeroServices from "./HeroServices";
 const Hero: React.FC = () => {
   const sections = [
     {
-      title: "Projets",
+      title: "Contact",
       description:
-        "Découvrez nos réalisations et projets qui ont transformé la présence digitale de nos clients.",
-      image: "/images/projets.png",
-      link: "/projets",
+        "Parlons de votre projet et créons ensemble une solution sur mesure.",
+      image: "/images/contact.png",
+      link: "/contact",
     },
     {
       title: "Services",
@@ -22,13 +22,14 @@ const Hero: React.FC = () => {
       image: "/images/services.png",
       link: "/services",
     },
-    {
-      title: "Contact",
+        {
+      title: "Projets",
       description:
-        "Parlons de votre projet et créons ensemble une solution sur mesure.",
-      image: "/images/contact.png",
-      link: "/contact",
+        "Découvrez nos réalisations et projets qui ont transformé la présence digitale de nos clients.",
+      image: "/images/projets.png",
+      link: "/projets",
     },
+
     {
       title: "Admin",
       description:
@@ -51,15 +52,6 @@ const Hero: React.FC = () => {
             >
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80 z-10 opacity-70 transition-opacity duration-300 group-hover:opacity-40" />
-
-              {/* Animated lines overlay */}
-              <div className="absolute inset-0 z-20 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[gradient_8s_ease_infinite]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent animate-[gradient_6s_ease_infinite]" />
-              </div>
-
-              {/* Cyberpunk-style grid overlay */}
-              <div className="absolute inset-0 z-20 opacity-10 group-hover:opacity-20 transition-opacity duration-300 bg-[linear-gradient(transparent_1px,_transparent_1px),_linear-gradient(to_right,_rgba(255,255,255,0.1)_1px,_transparent_1px)] bg-[size:30px_30px]" />
 
               {/* Background image */}
               <motion.div

@@ -3,6 +3,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
+import MaintenanceBanner from "@/components/MaintenanceBanner";
 import { useState } from "react";
 import Loader from "@/components/Loader";
 
@@ -17,6 +18,7 @@ export default function Home() {
     <main className="tech-pattern-bg min-h-screen text-white">
       {loading && <Loader onComplete={handleLoaderComplete} />}
 
+      <MaintenanceBanner />
       <Header />
       <Hero />
       <Footer />
