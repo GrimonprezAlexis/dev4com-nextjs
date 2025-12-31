@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Facebook, Linkedin, Twitter, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -26,12 +26,6 @@ const Header: React.FC = () => {
     { path: "/services", label: "Services" },
     { path: "/contact", label: "Contact" },
     { path: "/admin", label: "Admin" },
-  ];
-
-  const socialLinks = [
-    { Icon: Facebook, href: "#", label: "Facebook" },
-    { Icon: Twitter, href: "#", label: "Twitter" },
-    { Icon: Linkedin, href: "#", label: "LinkedIn" },
   ];
 
   return (
@@ -64,7 +58,7 @@ const Header: React.FC = () => {
             <Link
               key={item.path}
               href={item.path}
-              className={`text-sm font-medium transition-colors ${
+              className={`text-md font-medium transition-colors ${
                 pathname === item.path
                   ? "text-white"
                   : "text-gray-400 hover:text-white"
@@ -75,21 +69,6 @@ const Header: React.FC = () => {
             </Link>
           ))}
         </nav>
-
-        {/* Desktop Social Links */}
-        <div className="hidden md:flex space-x-4">
-          {socialLinks.map(({ Icon, href, label }, index) => (
-            <motion.a
-              key={index}
-              href={href}
-              aria-label={`Suivez-nous sur ${label}`}
-              whileHover={{ scale: 1.2, color: "#ffffff" }}
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Icon size={18} />
-            </motion.a>
-          ))}
-        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -150,22 +129,6 @@ const Header: React.FC = () => {
                     </Link>
                   ))}
                 </nav>
-
-                <div className="mt-auto">
-                  <div className="flex justify-center space-x-6">
-                    {socialLinks.map(({ Icon, href, label }, index) => (
-                      <motion.a
-                        key={index}
-                        href={href}
-                        aria-label={`Suivez-nous sur ${label}`}
-                        whileHover={{ scale: 1.2, color: "#ffffff" }}
-                        className="text-gray-400 hover:text-white transition-colors"
-                      >
-                        <Icon size={24} />
-                      </motion.a>
-                    ))}
-                  </div>
-                </div>
               </div>
             </motion.div>
           )}

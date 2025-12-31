@@ -128,7 +128,12 @@ const SettingsPanel: React.FC = () => {
 
       let errorMessage = 'Erreur lors de la mise à jour de l\'email';
 
+      // Check error message or code
+      const errorString = error?.message?.toLowerCase() || '';
+
       if (error.code === 'auth/wrong-password') {
+        errorMessage = 'Mot de passe incorrect';
+      } else if (error.code === 'auth/invalid-credential') {
         errorMessage = 'Mot de passe incorrect';
       } else if (error.code === 'auth/email-already-in-use') {
         errorMessage = 'Cet email est déjà utilisé';
@@ -136,6 +141,8 @@ const SettingsPanel: React.FC = () => {
         errorMessage = 'Format d\'email invalide';
       } else if (error.code === 'auth/requires-recent-login') {
         errorMessage = 'Veuillez vous reconnecter avant de modifier votre email';
+      } else if (errorString.includes('verify') || errorString.includes('verification')) {
+        errorMessage = 'Un email de vérification a été envoyé à votre nouvelle adresse. Veuillez vérifier votre boîte de réception et suivre les instructions avant que le changement ne soit effectif.';
       }
 
       setMessage({ type: 'error', text: errorMessage });

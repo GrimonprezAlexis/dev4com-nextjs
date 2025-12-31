@@ -30,6 +30,20 @@ const ChatBot: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
+  // Welcome message when chat opens for the first time
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      const welcomeMessage: Message = {
+        id: "welcome",
+        type: "bot",
+        content:
+          "Bonjour ! 👋 Je suis l'assistant virtuel de DEV4COM. Comment puis-je vous aider avec votre projet digital aujourd'hui ?",
+        timestamp: new Date(),
+      };
+      setMessages([welcomeMessage]);
+    }
+  }, [isOpen, messages.length]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -42,19 +56,32 @@ const ChatBot: React.FC = () => {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input.trim();
     setInput("");
     setIsTyping(true);
 
     try {
+      // Build conversation history for context
+      const conversationHistory = messages.map((msg) => ({
+        role: msg.type === "user" ? "user" : "assistant",
+        content: msg.content,
+      }));
+
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: input.trim() }),
+        body: JSON.stringify({
+          message: currentInput,
+          conversationHistory: conversationHistory.slice(-6), // Last 6 messages for context
+        }),
       });
 
-      if (!response.ok) throw new Error("Failed to get response");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.details || "Failed to get response");
+      }
 
       const data = await response.json();
 
@@ -66,13 +93,22 @@ const ChatBot: React.FC = () => {
       };
 
       setMessages((prev) => [...prev, botMessage]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Chat error:", error);
+
+      let errorText = "Désolé, je rencontre des difficultés techniques. Veuillez réessayer dans quelques instants.";
+
+      // Show more specific error messages
+      if (error?.message?.includes('API')) {
+        errorText = "Le service de chat n'est pas disponible. Veuillez vérifier la configuration de l'API.";
+      } else if (error?.message?.includes('Configuration')) {
+        errorText = "Le chatbot n'est pas encore configuré. Contactez l'administrateur.";
+      }
+
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: "bot",
-        content:
-          "Désolé, je rencontre des difficultés. Veuillez réessayer plus tard.",
+        content: errorText,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -87,6 +123,21 @@ const ChatBot: React.FC = () => {
       handleSubmit(new Event("submit") as unknown as React.FormEvent);
     }
   };
+
+  const handleQuickReply = (text: string) => {
+    setInput(text);
+    // Auto-focus on input after selecting quick reply
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
+  };
+
+  const quickReplies = [
+    "Créer un site web",
+    "Automatisation IA",
+    "Améliorer mon SEO",
+    "Demander un devis",
+  ];
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[100]">
@@ -141,7 +192,7 @@ const ChatBot: React.FC = () => {
                     }`}
                   >
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                         message.type === "user" ? "bg-blue-500" : "bg-gray-700"
                       }`}
                     >
@@ -162,7 +213,10 @@ const ChatBot: React.FC = () => {
                         {message.content}
                       </p>
                       <span className="text-xs opacity-50 mt-1 block">
-                        {message.timestamp.toLocaleTimeString()}
+                        {message.timestamp.toLocaleTimeString("fr-FR", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </span>
                     </div>
                   </motion.div>
@@ -179,6 +233,26 @@ const ChatBot: React.FC = () => {
                     <div className="bg-gray-800 rounded-2xl px-4 py-2">
                       <Loader2 className="w-4 h-4 text-white animate-spin" />
                     </div>
+                  </motion.div>
+                )}
+
+                {/* Quick replies - shown only after welcome message */}
+                {messages.length === 1 && messages[0].id === "welcome" && !isTyping && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="flex flex-wrap gap-2 mt-4"
+                  >
+                    {quickReplies.map((reply) => (
+                      <button
+                        key={reply}
+                        onClick={() => handleQuickReply(reply)}
+                        className="px-3 py-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-lg text-xs hover:bg-blue-500/20 transition-colors"
+                      >
+                        {reply}
+                      </button>
+                    ))}
                   </motion.div>
                 )}
                 <div ref={messagesEndRef} />

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react";
+import { Mail, MapPin, Send, Loader2 } from "lucide-react";
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({
@@ -100,16 +100,10 @@ const Contact: React.FC = () => {
       delay: 0.2,
     },
     {
-      icon: <Phone size={24} />,
-      title: "Téléphone",
-      value: "+33 1 23 45 67 89",
-      delay: 0.3,
-    },
-    {
       icon: <MapPin size={24} />,
       title: "Adresse",
-      value: "Paris, France",
-      delay: 0.4,
+      value: "60 Rue François 1er, 75008 Paris, France",
+      delay: 0.3,
     },
   ];
 
@@ -277,6 +271,41 @@ const Contact: React.FC = () => {
             </form>
           </motion.div>
         </div>
+
+        {/* Google Map Section */}
+        <motion.div
+          variants={itemVariants}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.6 }}
+          className="mt-16"
+        >
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-3 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+              Notre Localisation
+            </h2>
+            <p className="text-gray-400">
+              Venez nous rendre visite à notre bureau parisien
+            </p>
+          </div>
+
+          <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+            {/* Gradient overlay on borders */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none z-10" />
+
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.253244117765!2d2.3012544!3d48.8698679!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fc11d87c7d7%3A0x82b1a6f0b7e51c22!2s60%20Rue%20Fran%C3%A7ois%201er%2C%2075008%20Paris%2C%20France!5e0!3m2!1sen!2sfr!4v1234567890123!5m2!1sen!2sfr"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Google Map - 60 Rue François 1er, 75008 Paris, France"
+              className="relative z-0"
+            />
+          </div>
+        </motion.div>
       </div>
     </motion.div>
   );
