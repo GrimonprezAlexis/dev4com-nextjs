@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Upload, Search, Grid, List, Plus, Edit2, Trash2, X, Save, Calendar, ExternalLink, User, Tag, Link as LinkIcon, FileJson, Check, AlertCircle } from 'lucide-react';
+import { Upload, Search, Grid, List, Plus, Edit2, Trash2, X, Save, Calendar, ExternalLink, User, Tag, Link as LinkIcon, FileJson, Check, AlertCircle, Download } from 'lucide-react';
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -23,6 +23,8 @@ const ProjectsManager: React.FC = () => {
   const [importStep, setImportStep] = useState<'select' | 'preview' | 'importing' | 'complete'>('select');
   const [importProgress, setImportProgress] = useState({ current: 0, total: 0 });
   const [importErrors, setImportErrors] = useState<string[]>([]);
+  const [importMode, setImportMode] = useState<'file' | 'text'>('file');
+  const [jsonText, setJsonText] = useState('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -261,6 +263,36 @@ const ProjectsManager: React.FC = () => {
     }
   };
 
+  const validateJsonData = (data: any) => {
+    // Valider que c'est un tableau
+    if (!Array.isArray(data)) {
+      throw new Error("Le JSON doit contenir un tableau de projets");
+    }
+
+    // Valider la structure des projets
+    const validatedData = data.map((item, index) => ({
+      title: item.title || `Projet ${index + 1}`,
+      subtitle: item.subtitle || '',
+      job: item.job || '',
+      description: item.description || '',
+      imageUrl: item.imageUrl || item.image || '',
+      imagesUrl: item.imagesUrl || [],
+      technologies: item.technologies || item.tech || [],
+      icons: item.icons || [],
+      tags: item.tags || [],
+      links: item.links || {
+        app_link: item.app_link || item.url || '',
+        repository: item.repository || '',
+        maquette: item.maquette || ''
+      },
+      status: (item.status || 'In Progress') as ProjectStatus,
+      createdAt: item.createdAt ? new Date(item.createdAt) : new Date(),
+      client: item.client || ''
+    }));
+
+    return validatedData;
+  };
+
   const handleJsonFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -273,41 +305,34 @@ const ProjectsManager: React.FC = () => {
       try {
         const text = await file.text();
         const data = JSON.parse(text);
-
-        // Valider que c'est un tableau
-        if (!Array.isArray(data)) {
-          setError("Le fichier JSON doit contenir un tableau de projets");
-          return;
-        }
-
-        // Valider la structure des projets
-        const validatedData = data.map((item, index) => ({
-          title: item.title || `Projet ${index + 1}`,
-          subtitle: item.subtitle || '',
-          job: item.job || '',
-          description: item.description || '',
-          imageUrl: item.imageUrl || item.image || '',
-          imagesUrl: item.imagesUrl || [],
-          technologies: item.technologies || item.tech || [],
-          icons: item.icons || [],
-          tags: item.tags || [],
-          links: item.links || {
-            app_link: item.app_link || item.url || '',
-            repository: item.repository || '',
-            maquette: item.maquette || ''
-          },
-          status: (item.status || 'In Progress') as ProjectStatus,
-          createdAt: item.createdAt ? new Date(item.createdAt) : new Date(),
-          client: item.client || ''
-        }));
+        const validatedData = validateJsonData(data);
 
         setImportData(validatedData);
         setImportStep('preview');
         setError(null);
       } catch (err) {
         console.error('Error parsing JSON:', err);
-        setError("Erreur lors de la lecture du fichier JSON. Vérifiez le format.");
+        setError(err instanceof Error ? err.message : "Erreur lors de la lecture du fichier JSON. Vérifiez le format.");
       }
+    }
+  };
+
+  const handleJsonTextValidate = () => {
+    try {
+      if (!jsonText.trim()) {
+        setError("Veuillez saisir du JSON");
+        return;
+      }
+
+      const data = JSON.parse(jsonText);
+      const validatedData = validateJsonData(data);
+
+      setImportData(validatedData);
+      setImportStep('preview');
+      setError(null);
+    } catch (err) {
+      console.error('Error parsing JSON:', err);
+      setError(err instanceof Error ? err.message : "Erreur lors du parsing du JSON. Vérifiez la syntaxe.");
     }
   };
 
@@ -344,12 +369,95 @@ const ProjectsManager: React.FC = () => {
     await fetchProjects();
   };
 
+  const downloadTemplate = () => {
+    const templateData = [
+      {
+        title: "Projet E-commerce",
+        subtitle: "Site de vente en ligne moderne",
+        job: "Développement Full-Stack",
+        description: "Création d'une plateforme e-commerce complète avec gestion de panier, paiement en ligne et espace client.",
+        imageUrl: "https://example.com/images/project1.jpg",
+        imagesUrl: [
+          "https://example.com/images/project1-1.jpg",
+          "https://example.com/images/project1-2.jpg"
+        ],
+        technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Stripe"],
+        icons: ["react", "nextjs", "typescript", "tailwind", "stripe"],
+        tags: ["E-commerce", "Full-Stack", "Responsive"],
+        links: {
+          app_link: "https://example-ecommerce.com",
+          repository: "https://github.com/exemple/ecommerce",
+          maquette: "https://figma.com/file/exemple",
+          credentials: [
+            {
+              email: "demo@example.com",
+              password: "demo123"
+            }
+          ]
+        },
+        status: "Completed",
+        createdAt: new Date().toISOString(),
+        client: "Client Exemple SAS"
+      },
+      {
+        title: "Application Mobile",
+        subtitle: "App de gestion de tâches",
+        job: "Développement Mobile",
+        description: "Application mobile cross-platform pour la gestion de projets et de tâches avec synchronisation cloud.",
+        imageUrl: "https://example.com/images/project2.jpg",
+        imagesUrl: [],
+        technologies: ["React Native", "Firebase", "Redux"],
+        icons: ["react", "firebase"],
+        tags: ["Mobile", "Productivité", "Cloud"],
+        links: {
+          app_link: "https://play.google.com/store/exemple",
+          repository: "https://github.com/exemple/mobile-app"
+        },
+        status: "In Progress",
+        createdAt: new Date().toISOString(),
+        client: "Startup Innovation"
+      },
+      {
+        title: "Site Vitrine",
+        subtitle: "Présentation entreprise",
+        job: "Développement Web",
+        description: "Site vitrine élégant et responsive pour présenter les services et l'équipe de l'entreprise.",
+        imageUrl: "https://example.com/images/project3.jpg",
+        imagesUrl: ["https://example.com/images/project3-1.jpg"],
+        technologies: ["HTML5", "CSS3", "JavaScript", "GSAP"],
+        icons: ["html", "css", "javascript"],
+        tags: ["Vitrine", "Responsive", "Animation"],
+        links: {
+          app_link: "https://example-vitrine.com",
+          maquette: "https://figma.com/file/vitrine"
+        },
+        status: "Completed",
+        createdAt: new Date().toISOString(),
+        client: "Entreprise Consulting"
+      }
+    ];
+
+    const jsonString = JSON.stringify(templateData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'template-projets-import.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const closeImportModal = () => {
     setIsImporting(false);
     setImportData(null);
     setImportStep('select');
     setImportProgress({ current: 0, total: 0 });
     setImportErrors([]);
+    setImportMode('file');
+    setJsonText('');
+    setError(null);
   };
 
   const filteredProjects = projects.filter(project => {
@@ -386,6 +494,14 @@ const ProjectsManager: React.FC = () => {
           >
             <FileJson size={20} />
             <span className="hidden sm:inline">Importer JSON</span>
+          </button>
+          <button
+            onClick={downloadTemplate}
+            className="flex items-center space-x-2 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
+            title="Télécharger un modèle JSON d'exemple"
+          >
+            <Download size={20} />
+            <span className="hidden sm:inline">Télécharger un modèle</span>
           </button>
           <button
             onClick={handleAddProject}
@@ -866,29 +982,98 @@ const ProjectsManager: React.FC = () => {
             </div>
 
             <div className="p-4 sm:p-6 space-y-4">
-              {/* Étape 1: Sélection du fichier */}
+              {/* Étape 1: Sélection du fichier ou saisie texte */}
               {importStep === 'select' && (
                 <div className="space-y-4">
-                  <div className="text-center py-8">
-                    <FileJson size={64} className="mx-auto text-purple-400 mb-4" />
-                    <p className="text-gray-400 mb-4">
-                      Sélectionnez un fichier JSON contenant vos projets
-                    </p>
-                    <input
-                      type="file"
-                      accept=".json"
-                      onChange={handleJsonFileChange}
-                      className="hidden"
-                      id="json-upload"
-                    />
-                    <label
-                      htmlFor="json-upload"
-                      className="inline-flex items-center space-x-2 px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors cursor-pointer"
+                  {/* Mode Switch */}
+                  <div className="flex items-center justify-center gap-4 mb-6">
+                    <button
+                      onClick={() => setImportMode('file')}
+                      className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                        importMode === 'file'
+                          ? 'bg-purple-500 text-white'
+                          : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                      }`}
                     >
-                      <Upload size={20} />
-                      <span>Choisir un fichier</span>
-                    </label>
+                      <div className="flex items-center gap-2">
+                        <Upload size={18} />
+                        <span>Fichier JSON</span>
+                      </div>
+                    </button>
+                    <button
+                      onClick={() => setImportMode('text')}
+                      className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                        importMode === 'text'
+                          ? 'bg-purple-500 text-white'
+                          : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <FileJson size={18} />
+                        <span>Saisie directe</span>
+                      </div>
+                    </button>
                   </div>
+
+                  {/* Mode Fichier */}
+                  {importMode === 'file' && (
+                    <div className="space-y-4">
+                      <div className="text-center py-8">
+                        <FileJson size={64} className="mx-auto text-purple-400 mb-4" />
+                        <p className="text-gray-400 mb-4">
+                          Sélectionnez un fichier JSON contenant vos projets
+                        </p>
+                        <input
+                          type="file"
+                          accept=".json"
+                          onChange={handleJsonFileChange}
+                          className="hidden"
+                          id="json-upload"
+                        />
+                        <label
+                          htmlFor="json-upload"
+                          className="inline-flex items-center space-x-2 px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors cursor-pointer"
+                        >
+                          <Upload size={20} />
+                          <span>Choisir un fichier</span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Mode Texte */}
+                  {importMode === 'text' && (
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <label className="text-white text-sm font-medium">
+                          Collez votre JSON ici :
+                        </label>
+                        <textarea
+                          value={jsonText}
+                          onChange={(e) => setJsonText(e.target.value)}
+                          placeholder='[
+  {
+    "title": "Mon Projet",
+    "description": "Description du projet",
+    "imageUrl": "https://...",
+    "technologies": ["React", "Node.js"],
+    "status": "Completed"
+  }
+]'
+                          className="w-full h-96 bg-black/40 border border-gray-700 rounded-lg p-4 text-white font-mono text-sm focus:outline-none focus:border-purple-500 transition-colors resize-none"
+                        />
+                      </div>
+                      <button
+                        onClick={handleJsonTextValidate}
+                        disabled={!jsonText.trim()}
+                        className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <Check size={20} />
+                        <span>Valider le JSON</span>
+                      </button>
+                    </div>
+                  )}
+
                   <div className="bg-blue-500/10 border border-blue-500/50 rounded-lg p-4">
                     <p className="text-blue-400 text-sm">
                       <strong>Format attendu:</strong> Un tableau JSON avec des objets projet contenant: title, description, imageUrl, technologies, etc.

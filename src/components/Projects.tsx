@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github, FileText, Calendar, User, Sparkles } from 'lucide-react';
 import { collection, getDocs, query } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { db, auth } from '../lib/firebase';
 import { Project } from '../types/project';
 
 const ProjectCard: React.FC<{ project: Project; index: number; onClick: () => void }> = ({ project, index, onClick }) => {
@@ -102,7 +103,7 @@ const ProjectCard: React.FC<{ project: Project; index: number; onClick: () => vo
         {/* Card content */}
         <div className="flex-1 p-6 bg-gradient-to-b from-black/60 to-black/80 backdrop-blur-sm flex flex-col">
           <h4 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
-            {project.subtitle}
+            {project.title}
           </h4>
 
           <p className="text-gray-300 text-sm leading-relaxed line-clamp-2 mb-4 flex-1">
@@ -136,9 +137,18 @@ const Projects: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     fetchProjects();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAuthenticated(!!user);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const fetchProjects = async () => {
@@ -462,7 +472,7 @@ const Projects: React.FC = () => {
                         <span className="font-medium">Voir le projet en ligne</span>
                       </a>
                     )}
-                    {selectedProject.links.repository && selectedProject.links.repository !== '#' && (
+                    {isAuthenticated && selectedProject.links.repository && selectedProject.links.repository !== '#' && (
                       <a
                         href={selectedProject.links.repository}
                         target="_blank"

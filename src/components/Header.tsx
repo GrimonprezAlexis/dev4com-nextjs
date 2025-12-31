@@ -2,14 +2,19 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,12 +25,41 @@ const Header: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isUserMenuOpen && !target.closest('.user-menu-container')) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isUserMenuOpen]);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setIsUserMenuOpen(false);
+      router.push("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   const menuItems = [
     { path: "/", label: "Accueil" },
     { path: "/projets", label: "Projets" },
     { path: "/services", label: "Services" },
     { path: "/contact", label: "Contact" },
-    { path: "/admin", label: "Admin" },
   ];
 
   return (
@@ -53,7 +87,7 @@ const Header: React.FC = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
+        <nav className="hidden md:flex items-center space-x-8">
           {menuItems.map((item) => (
             <Link
               key={item.path}
@@ -68,6 +102,60 @@ const Header: React.FC = () => {
               {item.label}
             </Link>
           ))}
+
+          {/* User Menu or Admin Link */}
+          {user ? (
+            <div className="relative user-menu-container">
+              <button
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors"
+                aria-label="Menu utilisateur"
+              >
+                <User size={20} />
+                <span className="text-md font-medium">
+                  {user.displayName || user.email?.split('@')[0] || 'Utilisateur'}
+                </span>
+              </button>
+
+              <AnimatePresence>
+                {isUserMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-48 bg-black/90 backdrop-blur-md border border-gray-700 rounded-lg shadow-xl overflow-hidden z-50"
+                  >
+                    <Link
+                      href="/admin"
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="block px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition-colors"
+                    >
+                      Administration
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition-colors flex items-center space-x-2"
+                    >
+                      <LogOut size={16} />
+                      <span>Déconnexion</span>
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <Link
+              href="/admin"
+              className={`text-md font-medium transition-colors ${
+                pathname === "/admin"
+                  ? "text-white"
+                  : "text-gray-400 hover:text-white"
+              }`}
+              aria-current={pathname === "/admin" ? "page" : undefined}
+            >
+              Admin
+            </Link>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -128,6 +216,54 @@ const Header: React.FC = () => {
                       {item.label}
                     </Link>
                   ))}
+
+                  {/* Mobile User Menu */}
+                  {user ? (
+                    <>
+                      <div className="pt-6 border-t border-gray-700">
+                        <div className="flex items-center space-x-3 mb-6 text-gray-400">
+                          <User size={24} />
+                          <span className="text-lg font-medium">
+                            {user.displayName || user.email?.split('@')[0] || 'Utilisateur'}
+                          </span>
+                        </div>
+                        <Link
+                          href="/admin"
+                          onClick={() => setIsMenuOpen(false)}
+                          className={`block text-2xl font-medium mb-6 transition-colors ${
+                            pathname === "/admin"
+                              ? "text-white"
+                              : "text-gray-400 hover:text-white"
+                          }`}
+                        >
+                          Administration
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            handleLogout();
+                          }}
+                          className="flex items-center space-x-3 text-2xl font-medium text-gray-400 hover:text-white transition-colors"
+                        >
+                          <LogOut size={24} />
+                          <span>Déconnexion</span>
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <Link
+                      href="/admin"
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`text-2xl font-medium transition-colors ${
+                        pathname === "/admin"
+                          ? "text-white"
+                          : "text-gray-400 hover:text-white"
+                      }`}
+                      aria-current={pathname === "/admin" ? "page" : undefined}
+                    >
+                      Admin
+                    </Link>
+                  )}
                 </nav>
               </div>
             </motion.div>
