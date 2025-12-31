@@ -9,6 +9,7 @@ interface Message {
   type: "user" | "bot";
   content: string;
   timestamp: Date;
+  suggestions?: string[];
 }
 
 const ChatBot: React.FC = () => {
@@ -37,8 +38,9 @@ const ChatBot: React.FC = () => {
         id: "welcome",
         type: "bot",
         content:
-          "Bonjour ! 👋 Je suis l'assistant virtuel de DEV4COM. Comment puis-je vous aider avec votre projet digital aujourd'hui ?",
+          "Bonjour ! 👋 Je peux vous aider avec un site web, e-commerce, SEO ou design. Quel est votre projet ?",
         timestamp: new Date(),
+        suggestions: quickReplies,
       };
       setMessages([welcomeMessage]);
     }
@@ -90,6 +92,7 @@ const ChatBot: React.FC = () => {
         type: "bot",
         content: data.message,
         timestamp: new Date(),
+        suggestions: data.suggestions || [],
       };
 
       setMessages((prev) => [...prev, botMessage]);
@@ -110,6 +113,7 @@ const ChatBot: React.FC = () => {
         type: "bot",
         content: errorText,
         timestamp: new Date(),
+        suggestions: ["Créer un site web", "Demander un devis", "Contacter l'équipe"],
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -134,9 +138,9 @@ const ChatBot: React.FC = () => {
 
   const quickReplies = [
     "Créer un site web",
-    "Automatisation IA",
+    "Créer une boutique en ligne",
     "Améliorer mon SEO",
-    "Demander un devis",
+    "Design et identité visuelle",
   ];
 
   return (
@@ -180,46 +184,71 @@ const ChatBot: React.FC = () => {
 
               {/* Messages */}
               <div className="h-96 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
-                {messages.map((message) => (
-                  <motion.div
-                    key={message.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`flex items-start space-x-2 ${
-                      message.type === "user"
-                        ? "flex-row-reverse space-x-reverse"
-                        : ""
-                    }`}
-                  >
-                    <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        message.type === "user" ? "bg-blue-500" : "bg-gray-700"
-                      }`}
-                    >
-                      {message.type === "user" ? (
-                        <User className="w-4 h-4 text-white" />
-                      ) : (
-                        <Bot className="w-4 h-4 text-white" />
-                      )}
-                    </div>
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                {messages.map((message, index) => (
+                  <div key={message.id}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`flex items-start space-x-2 ${
                         message.type === "user"
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-800 text-gray-100"
+                          ? "flex-row-reverse space-x-reverse"
+                          : ""
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap">
-                        {message.content}
-                      </p>
-                      <span className="text-xs opacity-50 mt-1 block">
-                        {message.timestamp.toLocaleTimeString("fr-FR", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </span>
-                    </div>
-                  </motion.div>
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          message.type === "user" ? "bg-blue-500" : "bg-gray-700"
+                        }`}
+                      >
+                        {message.type === "user" ? (
+                          <User className="w-4 h-4 text-white" />
+                        ) : (
+                          <Bot className="w-4 h-4 text-white" />
+                        )}
+                      </div>
+                      <div
+                        className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                          message.type === "user"
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-800 text-gray-100"
+                        }`}
+                      >
+                        <p className="text-sm whitespace-pre-wrap">
+                          {message.content}
+                        </p>
+                        <span className="text-xs opacity-50 mt-1 block">
+                          {message.timestamp.toLocaleTimeString("fr-FR", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
+                      </div>
+                    </motion.div>
+
+                    {/* Show suggestions after bot messages */}
+                    {message.type === "bot" &&
+                     message.suggestions &&
+                     message.suggestions.length > 0 &&
+                     !isTyping &&
+                     index === messages.length - 1 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="flex flex-wrap gap-2 mt-3 ml-10"
+                      >
+                        {message.suggestions.map((suggestion, idx) => (
+                          <button
+                            key={`${message.id}-suggestion-${idx}`}
+                            onClick={() => handleQuickReply(suggestion)}
+                            className="px-3 py-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-lg text-xs hover:bg-blue-500/20 transition-colors"
+                          >
+                            {suggestion}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </div>
                 ))}
                 {isTyping && (
                   <motion.div
@@ -233,26 +262,6 @@ const ChatBot: React.FC = () => {
                     <div className="bg-gray-800 rounded-2xl px-4 py-2">
                       <Loader2 className="w-4 h-4 text-white animate-spin" />
                     </div>
-                  </motion.div>
-                )}
-
-                {/* Quick replies - shown only after welcome message */}
-                {messages.length === 1 && messages[0].id === "welcome" && !isTyping && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="flex flex-wrap gap-2 mt-4"
-                  >
-                    {quickReplies.map((reply) => (
-                      <button
-                        key={reply}
-                        onClick={() => handleQuickReply(reply)}
-                        className="px-3 py-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-lg text-xs hover:bg-blue-500/20 transition-colors"
-                      >
-                        {reply}
-                      </button>
-                    ))}
                   </motion.div>
                 )}
                 <div ref={messagesEndRef} />

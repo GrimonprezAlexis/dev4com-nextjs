@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     const response = await generateChatResponse(message, conversationHistory || []);
 
-    if (!response || typeof response !== "string") {
+    if (!response || (typeof response !== "string" && typeof response !== "object")) {
       console.error("Invalid response:", response);
       return NextResponse.json(
         { error: "AI response invalid" },
@@ -25,7 +25,41 @@ export async function POST(request: Request) {
     }
 
     console.log('[Chat API] Response generated successfully');
-    return NextResponse.json({ message: response });
+
+    // Handle both old string format and new object format
+    if (typeof response === "string") {
+      return NextResponse.json({
+        message: response,
+        suggestions: ["Recevoir des infos par email", "Demander un devis", "Créer un site web"]
+      });
+    }
+
+    // Check if an email was captured
+    if (response.capturedEmail) {
+      console.log('[Chat API] Email captured:', response.capturedEmail);
+
+      // Generate conversation summary
+      const conversationSummary = conversationHistory
+        .slice(-6)
+        .map((msg: any) => `${msg.role === 'user' ? 'Client' : 'Assistant'}: ${msg.content}`)
+        .join('\n');
+
+      // Send lead email in background (don't wait for it)
+      fetch(`${request.url.replace(/\/api\/chat.*$/, '')}/api/send-lead-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: response.capturedEmail,
+          conversationSummary,
+        }),
+      }).catch((err) => {
+        console.error('[Chat API] Failed to send lead email:', err);
+      });
+    }
+
+    return NextResponse.json(response);
   } catch (error: any) {
     console.error("Chat API error:", {
       message: error?.message,
