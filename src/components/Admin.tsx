@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, User, Settings, Image, BarChart, Mail, Globe, ShoppingCart, AlertCircle, LogOut } from 'lucide-react';
+import { Lock, User, Settings, BarChart, Mail, LogOut, FolderKanban } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import DashboardHome from './admin/DashboardHome';
-import MediaManager from './admin/MediaManager';
+import ProjectsManager from './admin/ProjectsManager';
 import SettingsPanel from './admin/SettingsPanel';
 
 const Admin: React.FC = () => {
@@ -17,22 +17,31 @@ const Admin: React.FC = () => {
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     clearError();
-    
+
+    // Client-side validation
+    if (!loginForm.email || !loginForm.password) {
+      return; // Error will be shown by AuthContext
+    }
+
+    if (isRegistering && !loginForm.displayName) {
+      return; // Error will be shown by AuthContext
+    }
+
     try {
       if (isRegistering) {
+        console.log('Tentative d\'inscription avec:', loginForm.email);
         await signUp(loginForm.email, loginForm.password, loginForm.displayName);
+        console.log('Inscription réussie!');
       } else {
+        console.log('Tentative de connexion avec:', loginForm.email);
         await signIn(loginForm.email, loginForm.password);
+        console.log('Connexion réussie!');
       }
     } catch (err: any) {
-      console.error('Auth error:', err);
-      // Handle the specific case of email already in use
-      if (err.code === 'auth/email-already-in-use') {
-        clearError();
-        setIsRegistering(false); // Switch back to login form
-        // We'll show a message indicating they should log in instead
-        return;
-      }
+      console.error('Erreur d\'authentification:', err);
+      console.error('Code d\'erreur:', err.code);
+      console.error('Message d\'erreur:', err.message);
+      // Error is already set in AuthContext, no need to handle here
     }
   };
 
@@ -46,15 +55,8 @@ const Admin: React.FC = () => {
 
   const adminSections = [
     { id: 'dashboard', icon: <BarChart size={24} />, title: 'Tableau de bord', component: DashboardHome },
-    { id: 'media', icon: <Image size={24} />, title: 'Projets', component: MediaManager },
+    { id: 'projects', icon: <FolderKanban size={24} />, title: 'Projets', component: ProjectsManager },
     { id: 'settings', icon: <Settings size={24} />, title: 'Paramètres', component: SettingsPanel },
-  ];
-
-  const stats = [
-    { icon: <Globe size={20} />, label: 'Visiteurs', value: '1.2K', trend: '+12%' },
-    { icon: <ShoppingCart size={20} />, label: 'Projets', value: '25', trend: '+5%' },
-    { icon: <Mail size={20} />, label: 'Messages', value: '48', trend: '+18%' },
-    { icon: <AlertCircle size={20} />, label: 'Notifications', value: '7', trend: '-2%' },
   ];
 
   const containerVariants = {
@@ -118,11 +120,12 @@ const Admin: React.FC = () => {
                     className="w-full bg-black/30 border border-gray-800 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
                     value={loginForm.displayName}
                     onChange={(e) => setLoginForm({ ...loginForm, displayName: e.target.value })}
+                    required
                   />
                 </div>
               </div>
             )}
-            
+
             <div>
               <div className="relative">
                 <Mail size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -132,10 +135,12 @@ const Admin: React.FC = () => {
                   className="w-full bg-black/30 border border-gray-800 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
                   value={loginForm.email}
                   onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                  required
+                  autoComplete="email"
                 />
               </div>
             </div>
-            
+
             <div>
               <div className="relative">
                 <Lock size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -145,8 +150,14 @@ const Admin: React.FC = () => {
                   className="w-full bg-black/30 border border-gray-800 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
                   value={loginForm.password}
                   onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                  required
+                  minLength={6}
+                  autoComplete={isRegistering ? "new-password" : "current-password"}
                 />
               </div>
+              {isRegistering && (
+                <p className="text-xs text-gray-400 mt-1 ml-1">Minimum 6 caractères</p>
+              )}
             </div>
 
             <motion.button
@@ -235,39 +246,10 @@ const Admin: React.FC = () => {
           </motion.div>
 
           {/* Main Content */}
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="flex-1"
           >
-            {/* Stats Overview */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  className="bg-black/40 backdrop-blur-md p-4 rounded-xl border border-white/10"
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
-                        {stat.icon}
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-400">{stat.label}</p>
-                        <p className="text-xl font-bold">{stat.value}</p>
-                      </div>
-                    </div>
-                    <span className={`text-sm ${
-                      stat.trend.startsWith('+') ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {stat.trend}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
             {/* Dynamic Content */}
             <motion.div
               variants={itemVariants}

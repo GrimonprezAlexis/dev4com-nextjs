@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
       description:
         "Découvrez nos réalisations et projets qui ont transformé la présence digitale de nos clients.",
       image: "/images/projets.png",
-      link: "/projects",
+      link: "/projets",
     },
     {
       title: "Services",

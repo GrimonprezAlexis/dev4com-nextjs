@@ -5,7 +5,7 @@ const ContentManager: React.FC = () => {
   const [pages] = useState([
     { id: 1, title: 'Accueil', path: '/', lastModified: '2024-03-15' },
     { id: 2, title: 'À propos', path: '/about', lastModified: '2024-03-14' },
-    { id: 3, title: 'Projets', path: '/projects', lastModified: '2024-03-13' },
+    { id: 3, title: 'Projets', path: '/projets', lastModified: '2024-03-13' },
     { id: 4, title: 'Contact', path: '/contact', lastModified: '2024-03-12' },
   ]);
 

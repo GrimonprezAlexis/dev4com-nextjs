@@ -22,7 +22,7 @@ const Header: React.FC = () => {
 
   const menuItems = [
     { path: "/", label: "Accueil" },
-    { path: "/projects", label: "Projets" },
+    { path: "/projets", label: "Projets" },
     { path: "/services", label: "Services" },
     { path: "/contact", label: "Contact" },
     { path: "/admin", label: "Admin" },

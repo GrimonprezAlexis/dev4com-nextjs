@@ -13,6 +13,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [displayText, setDisplayText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [randomStrings, setRandomStrings] = useState<string[]>([]);
   const router = useRouter();
 
   const englishText = "Crafting Digital Excellence";
@@ -88,6 +89,16 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
 
   useEffect(() => {
     typeText(englishText);
+  }, []);
+
+  // Générer les chaînes aléatoires côté client uniquement
+  useEffect(() => {
+    const strings = Array.from({ length: 3 }).map(() =>
+      Array.from({ length: 32 })
+        .map(() => String.fromCharCode(65 + Math.random() * 26))
+        .join("")
+    );
+    setRandomStrings(strings);
   }, []);
 
   const handleEnter = () => {
@@ -203,7 +214,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
 
               {/* Loading Lines */}
               <div className="space-y-2 text-[10px] font-mono text-gray-600">
-                {Array.from({ length: 3 }).map((_, i) => (
+                {randomStrings.map((str, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0 }}
@@ -212,9 +223,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
                     className="overflow-hidden whitespace-nowrap"
                   >
                     {"> "}
-                    {Array.from({ length: 32 })
-                      .map(() => String.fromCharCode(65 + Math.random() * 26))
-                      .join("")}
+                    {str}
                   </motion.div>
                 ))}
               </div>

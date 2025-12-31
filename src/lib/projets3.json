@@ -1,0 +1,14 @@
+[{
+  "title": "Pizza du Semnoz",
+  "subtitle": "Web app React pour une pizzeria",
+  "description": "Refonte complète d'un site existant pour le moderniser, incluant l'implémentation d'un système de recherche de pizzas avancé par filtres d'ingrédients.",
+  "imageUrl": "https://www.pizza-du-semnoz.fr/favicon.ico",
+  "technologies": ["React", "JavaScript", "CSS", "Vercel"],
+  "tags": ["Web", "Restauration", "UI/UX"],
+  "links": {
+    "app_link": "https://www.pizza-du-semnoz.fr/",
+    "repository": "https://github.com/GrimonprezAlexis/"
+  },
+  "status": "Completed",
+  "client": "Pizza du Semnoz"
+}]

@@ -61,7 +61,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/projects"
+                  href="/projets"
                   className="text-gray-400 hover:text-white text-sm"
                 >
                   Portfolio

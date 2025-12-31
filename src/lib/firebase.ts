@@ -5,13 +5,12 @@ import { getAnalytics } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBUlU1esFktMUK0TgJIqCww7xkGCqTU3cs",
-  authDomain: "dev4com-f68e3.firebaseapp.com",
-  projectId: "dev4com-f68e3",
-  storageBucket: "dev4com-f68e3.firebasestorage.app",
-  messagingSenderId: "634868566361",
-  appId: "1:634868566361:web:ea1a3efef52666b455e448",
-  measurementId: "G-3D57QJVRBN"
+  apiKey: process.env.NEXT_PUBLIC_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
+  appId: process.env.NEXT_PUBLIC_APPID,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -19,7 +18,6 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 const auth = getAuth(app);
 
-// Initialize analytics only on client side
 let analytics = null;
 if (typeof window !== 'undefined') {
   analytics = getAnalytics(app);

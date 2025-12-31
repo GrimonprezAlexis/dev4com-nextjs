@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Américaine Import",
+    "subtitle": "Web app NextJS pour un restaurant Garage",
+    "description": "Développement d'une application web complète incluant un Dashboard Admin pour la gestion du contenu et un simulateur de carte grise intégré via API.",
+    "imageUrl": "https://www.americaineimport.fr/favicon.ico",
+    "technologies": ["Nextjs", "RapidAPI", "Hostinger", "Github", "Vercel"],
+    "tags": ["Web", "Dashboard", "Automobile"],
+    "links": {
+      "app_link": "https://www.americaineimport.fr/",
+      "repository": "https://github.com/GrimonprezAlexis/"
+    },
+    "status": "Completed",
+    "client": "Américaine Import"
+  },
+  {
+    "title": "Le Relais de la Chartreuse",
+    "subtitle": "Web app NextJS pour un restaurant savoyard",
+    "description": "Création d'une plateforme vitrine et de gestion pour le restaurant Le Relais de la Chartreuse, incluant un Dashboard Admin complet pour piloter l'activité.",
+    "imageUrl": "https://www.relaisdelachartreuse.fr/favicon.ico",
+    "technologies": ["NextJS", "React", "Tailwind CSS", "Vercel"],
+    "tags": ["Web", "Restauration", "Dashboard"],
+    "links": {
+      "app_link": "https://www.relaisdelachartreuse.fr/",
+      "repository": "https://github.com/GrimonprezAlexis/"
+    },
+    "status": "Completed",
+    "client": "Relais de la Chartreuse"
+  }
+]

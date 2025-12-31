@@ -1,0 +1,282 @@
+[
+  {
+    "title": "Paking Val D'Isère",
+    "subtitle": "Destinée aux usagers du stationnement payant",
+    "description": "Construire une plateforme pour le stationnement payant.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Val-d-isere.png?raw=true",
+    "technologies": ["AngularJS", "NodeJS", "Javascript", "API", "Microservice", "3DSecure", "Github"],
+    "tags": ["Projet 19"],
+    "links": {
+      "app_link": "https://www.parkingvaldisere.com/",
+      "repository": "#"
+    },
+    "status": "Completed",
+    "client": "Développement de la plateforme pour le stationnement"
+  },
+  {
+    "title": "Angular - Portfolio",
+    "subtitle": "Application web en Angular + API NodeJS backend",
+    "description": "Construire un portfolio pour présenter mon profil.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/PortfolioApp.png?raw=true",
+    "technologies": ["Angular", "Nodejs", "API", "RxJS", "Typescript", "Github"],
+    "tags": ["Projet 18"],
+    "links": {
+      "app_link": "https://alexgrz.vercel.app/",
+      "repository": "hhttps://github.com/GrimonprezAlexis/Angular-portofolio"
+    },
+    "status": "Completed",
+    "client": "Présentation digitale de mon profil"
+  },
+  {
+    "title": "ArgentBank",
+    "subtitle": "Mise en place d'une application web React pour Argent Bank",
+    "description": "Développer une application web de gestion de comptes bancaires utilisant React et Redux.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/ArgentBank.png?raw=true",
+    "technologies": ["React", "Redux", "NodeJS", "MongoDB", "HTML", "CSS", "Validation W3C", "API", "Github"],
+    "tags": ["Projet 13"],
+    "links": {
+      "app_link": "#",
+      "repository": "https://github.com/GrimonprezAlexis/P13-Argent-Bank-API"
+    },
+    "status": "Completed",
+    "client": "Utiliser une API pour gérer les comptes utilisateur bancaire avec React"
+  },
+  {
+    "title": "Au 57",
+    "subtitle": "Conversion d'un menu de restaurant rapide",
+    "description": "Construire un menu de restauration rapide.",
+    "imageUrl": "",
+    "technologies": ["AdobeXD"],
+    "tags": ["Projet 15"],
+    "links": {
+      "app_link": "",
+      "repository": "https://github.com/your-repo-link"
+    },
+    "status": "Completed",
+    "client": "Développez un menu de restaurant"
+  },
+  {
+    "title": "React - HRnet",
+    "subtitle": "Conversion d'une application jQuery HRnet en React",
+    "description": "Convertir une application lente jQuery HRnet en une application React performante.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Hrnet.png?raw=true",
+    "technologies": ["React", "jQuery", "Jest", "ES6", "Validation W3C", "Custom Component", "Github"],
+    "tags": ["Projet 14"],
+    "links": {
+      "app_link": "https://p14-h-rnet-gules.vercel.app/",
+      "repository": "https://github.com/GrimonprezAlexis/P14_HRnet"
+    },
+    "status": "Completed",
+    "client": "Convertir des plugins jQuery en composants React"
+  },
+  {
+    "title": "Ohmyfood",
+    "subtitle": "Entreprise de commande de repas en ligne",
+    "description": "Créer un site web responsive avec des animations.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Ohmyfood.png?raw=true",
+    "technologies": ["HTML", "CSS", "SASS", "Font Awesome", "Github"],
+    "tags": ["Projet 3"],
+    "links": {
+      "app_link": "https://ohmyfood.vercel.app/",
+      "repository": "https://github.com/GrimonprezAlexis/P3_Ohmyfood"
+    },
+    "status": "Completed",
+    "client": "Animer une page web avec des animations CSS"
+  },
+  {
+    "title": "React - SportSee",
+    "subtitle": "Application Web pour le suivi sportif",
+    "description": "Construire une application de suivi sportif en utilisant React et diverses bibliothèques.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Sportsee.png?raw=true",
+    "technologies": ["React", "React Router", "styled-components", "axios", "Recharts", "Sass", "prop-types"],
+    "tags": ["Projet 12"],
+    "links": {
+      "app_link": "https://p12-sportsee-eta.vercel.app/",
+      "repository": "https://github.com/GrimonprezAlexis/P12_SportSee"
+    },
+    "status": "Completed",
+    "client": "Réalisation du kanban selon les User Stories"
+  },
+  {
+    "title": "Caisse enregistreuse Wabaki",
+    "subtitle": "Nouvelle caisse enregistreuse portative pour prise de commande",
+    "description": "Construire une nouvelle caisse enregistreuse pour les commandes clients.",
+    "imageUrl": "",
+    "technologies": ["React"],
+    "tags": ["Projet 21"],
+    "links": {
+      "app_link": "",
+      "repository": "https://github.com/your-repo-link"
+    },
+    "status": "Completed",
+    "client": "Elaboration d'une web app responsive pour les commandes clients"
+  },
+  {
+    "title": "Wabaki Sushi Flyers",
+    "subtitle": "Elaboration du flyers et carte de restaurant japonais",
+    "description": "Créer des flyers de menu et une carte de fidélité pour un restaurant de sushi.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Wabaki-menu.png?raw=true",
+    "technologies": ["AdobeXD", "FontAwesome"],
+    "tags": ["Projet 17"],
+    "links": {
+      "app_link": "https://wabaki-sushi.com/themes/sushi_box/assets/img/menu/menu.pdf",
+      "repository": "#"
+    },
+    "status": "Completed",
+    "client": "Flyers du menu et carte de fidélité pour un restaurant de sushi"
+  },
+  {
+    "title": "PrestoPark V2",
+    "subtitle": "Refonte UI + Intégration",
+    "description": "Construire une nouvelle interface pour PrestoPark V2.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/PrestoPark-v2.png?raw=true",
+    "technologies": ["AdobeXD"],
+    "tags": ["Projet 20"],
+    "links": {
+      "app_link": "",
+      "repository": "#"
+    },
+    "status": "Completed",
+    "client": "Maquettage de la nouvelle interface"
+  },
+  {
+    "title": "Réservia",
+    "subtitle": "Outil de planification de vacances",
+    "description": "Site web responsive basé sur un design fourni.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Reservia.png?raw=true",
+    "technologies": ["HTML", "CSS", "Font Awesome", "Github"],
+    "tags": ["Projet 2"],
+    "links": {
+      "app_link": "https://reservia.vercel.app/",
+      "repository": "https://github.com/GrimonprezAlexis/GrimonprezAlexis_2_06022021"
+    },
+    "status": "Completed",
+    "client": "Transformer une maquette en site web"
+  },
+  {
+    "title": "Javascript - GameOn",
+    "subtitle": "Conférences et concours de jeux",
+    "description": "Mettre en place des fonctionnalités JavaScript pour une page d'atterrissage.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/GameonWebsite.png?raw=true",
+    "technologies": ["HTML", "CSS", "Javascript", "Github"],
+    "tags": ["Projet 4"],
+    "links": {
+      "app_link": "https://p4-game-on-website.vercel.app/",
+      "repository": "https://github.com/your-repo-link"
+    },
+    "status": "Completed",
+    "client": "Créer une page d'atterrissage avec Javascript"
+  },
+  {
+    "title": "React - Kasa",
+    "subtitle": "Location d'appartements entre particuliers",
+    "description": "Développer l'ensemble de l'application du Front end au Back-end / data en React / JavaScript / NodeJS.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Kasa.png?raw=true",
+    "technologies": ["HTML", "CSS", "SASS", "Javascript", "Jquery", "NodeJS", "React", "Github", "Vercel"],
+    "tags": ["Projet 11"],
+    "links": {
+      "app_link": "https://p11-kasa-agr.vercel.app/",
+      "repository": "https://github.com/GrimonprezAlexis/P11_kasa"
+    },
+    "status": "Completed",
+    "client": "Développez une application Web avec React et React Router"
+  },
+  {
+    "title": "Les petits plats",
+    "subtitle": "Site web de recettes de cuisine",
+    "description": "Construire un site web fonctionnel de recettes de cuisine en respectant le design des maquettes et développer un algorithme de recherche en JavaScript.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/LesPetitsPlats.png?raw=true",
+    "technologies": ["HTML", "CSS (Sass, Bootstrap 4)", "Javascript", "Github"],
+    "tags": ["Projet 7"],
+    "links": {
+      "app_link": "https://p7-les-petits-plat.vercel.app/",
+      "repository": "https://github.com/GrimonprezAlexis/P7_Les-petits-plat"
+    },
+    "status": "Completed",
+    "client": "Construire un site web fonctionnel de recettes de cuisine avec un algorithme de recherche en JavaScript"
+  },
+  {
+    "title": "PrestoPark",
+    "subtitle": "Destinée aux usagers du stationnement payant",
+    "description": "Construire une plateforme pour le stationnement payant.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/PrestoPark.png?raw=true",
+    "technologies": ["AngularJS", "NodeJS", "Javascript", "API", "Microservice", "3DSecure", "Github"],
+    "tags": ["Projet 19"],
+    "links": {
+      "app_link": "https://prestopark.com",
+      "repository": "#"
+    },
+    "status": "Completed",
+    "client": "Développement de la plateforme pour le stationnement"
+  },
+  {
+    "title": "Learn@Home",
+    "subtitle": "Soutien scolaire en ligne",
+    "description": "Concevoir un site web pour les élèves et les bénévoles afin qu'ils puissent communiquer facilement sur le site.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/learnAtHome/learnAtHome-5-maquettes-1.png?raw=true",
+    "technologies": ["Figma", "Sketch", "Github"],
+    "tags": ["Projet 10"],
+    "links": {
+      "app_link": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/learnAtHome/learnAtHome-5-maquettes-1.png?raw=true",
+      "repository": "https://github.com/GrimonprezAlexis/P10_Dev4U"
+    },
+    "status": "Completed",
+    "client": "Définissez les besoins pour une app de soutien scolaire"
+  },
+  {
+    "title": "Wabaki Sushi E-commerce",
+    "subtitle": "Mise en place d'un CMS Prestashop",
+    "description": "Construire un site web pour un restaurant japonais.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Wabakisushi.png?raw=true",
+    "technologies": ["Prestashop", "Excel", "Filezilla", "1&1"],
+    "tags": ["Projet 16"],
+    "links": {
+      "app_link": "https://wabaki-sushi.com/",
+      "repository": "#"
+    },
+    "status": "Completed",
+    "client": "Créez un site accessible pour un restaurant japonais"
+  },
+  {
+    "title": "Angular - Findslator",
+    "subtitle": "Plateforme de mise en relation entre traducteurs et clients",
+    "description": "App web utilisant Auth0.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Findslator.png?raw=true ",
+    "technologies": ["HTML", "CSS", "Font Awesome", "Angular", "Rxjs", "Auth0", "NodeJS"],
+    "tags": ["Projet 2"],
+    "links": {
+      "app_link": "https://new-findslator-fe.vercel.app",
+      "repository": ""
+    },
+    "status": "Completed",
+    "client": "Freelance"
+  },
+  {
+    "title": "React - Sun Alt Invest",
+    "subtitle": "Application React spécialisée dans les energies renouvelables",
+    "description": "App web utilisant React.",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/Sun-Alt-Invest.png?raw=true ",
+    "technologies": ["HTML", "CSS", "REACT", "Mui"],
+    "tags": ["Projet 2"],
+    "links": {
+      "app_link": "https://sunaltinvest.vercel.app/",
+      "repository": "https://github.com/GrimonprezAlexis/"
+    },
+    "status": "Completed",
+    "client": "Freelance"
+  },
+  {
+    "title": "NextJS - Centris Scrapper",
+    "subtitle": "NextJS Scrapper Web Immobilier",
+    "description": "Web app NextJS with MongoDB and NextAuth",
+    "imageUrl": "https://github.com/GrimonprezAlexis/portfolio-img/blob/main/descartes_immobilier.png?raw=true",
+    "technologies": ["NextJS", "NextAuth", "MongoDB", "NodeJS", "Tailwind", "Github"],
+    "tags": ["Projet 15"],
+    "links": {
+      "app_link": "https://descartesimmobilier.vercel.app/",
+      "repository": "https://github.com/GrimonprezAlexis/descartesimmobilier"
+    },
+    "status": "Completed",
+    "client": "Mise en place d'un scrapper immobilier"
+  }
+]
