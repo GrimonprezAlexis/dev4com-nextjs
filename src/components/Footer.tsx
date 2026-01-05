@@ -62,15 +62,15 @@ const Footer: React.FC = () => {
                   href="/mentions-legales"
                   className="text-gray-400 hover:text-white text-sm"
                 >
-                  Contact
+                  Mentions Légales
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/mentions-legales"
+                  href="/politique-confidentialite"
                   className="text-gray-400 hover:text-white text-sm"
                 >
-                  Mentions Légales
+                  Politique de Confidentialité
                 </Link>
               </li>
             </ul>
