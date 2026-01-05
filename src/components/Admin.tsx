@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, User, Settings, Mail, LogOut, FolderKanban } from 'lucide-react';
+import { Lock, User, Settings, Mail, LogOut, FolderKanban, Code } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import ProjectsManager from './admin/ProjectsManager';
 import SettingsPanel from './admin/SettingsPanel';
@@ -55,6 +55,7 @@ const Admin: React.FC = () => {
   const adminSections = [
     { id: 'projects', icon: <FolderKanban size={24} />, title: 'Projets', component: ProjectsManager },
     { id: 'settings', icon: <Settings size={24} />, title: 'Paramètres', component: SettingsPanel },
+    { id: 'dev-gen', icon: <Code size={24} />, title: 'Dev GEN', href: 'https://dev4com-gen-invoice.vercel.app' },
   ];
 
   const containerVariants = {
@@ -217,11 +218,19 @@ const Admin: React.FC = () => {
               {adminSections.map((section) => (
                 <motion.button
                   key={section.id}
-                  onClick={() => setCurrentSection(section.id)}
+                  onClick={() => {
+                    if ('href' in section && section.href) {
+                      window.open(section.href, '_blank');
+                    } else {
+                      setCurrentSection(section.id);
+                    }
+                  }}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    currentSection === section.id 
-                      ? 'bg-blue-500/20 text-blue-400' 
-                      : 'text-gray-400 hover:bg-white/5'
+                    'href' in section ? 'text-gray-400 hover:bg-white/5' : (
+                      currentSection === section.id
+                        ? 'bg-blue-500/20 text-blue-400'
+                        : 'text-gray-400 hover:bg-white/5'
+                    )
                   }`}
                   whileHover={{ x: 5 }}
                   whileTap={{ scale: 0.98 }}
