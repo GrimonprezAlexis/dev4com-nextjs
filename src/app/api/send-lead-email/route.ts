@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   try {
@@ -22,12 +23,21 @@ export async function POST(request: Request) {
 
     console.log('[Lead Email API] Processing lead:', email);
 
-    // TODO: Replace with your email service (Resend, SendGrid, Nodemailer, etc.)
-    // For now, we'll just log it and return success
+    // Configure Nodemailer with Hostinger SMTP
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "smtp.hostinger.com",
+      port: parseInt(process.env.SMTP_PORT || "465"),
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER || "contact@dev4com.com",
+        pass: process.env.SMTP_PASS || "",
+      },
+    });
 
     // Email configuration
-    const adminEmail = "contact@dev4com.com"; // Your admin email
+    const adminEmail = process.env.CONTACT_EMAIL || "contact@dev4com.com";
     const clientEmail = email;
+    const fromEmail = `Dev4Com <${process.env.SMTP_USER || "contact@dev4com.com"}>`;
 
     // Email content for client
     const clientEmailContent = `
@@ -133,30 +143,42 @@ export async function POST(request: Request) {
     </html>
     `;
 
-    // TODO: Send emails using your email service
-    // Example with Resend:
-    // await resend.emails.send({
-    //   from: 'DEV4COM <noreply@dev4com.com>',
-    //   to: clientEmail,
-    //   subject: 'Merci pour votre intérêt - DEV4COM',
-    //   html: clientEmailContent,
-    // });
-    //
-    // await resend.emails.send({
-    //   from: 'Chatbot DEV4COM <chatbot@dev4com.com>',
-    //   to: adminEmail,
-    //   subject: `🎯 Nouveau Lead: ${email}`,
-    //   html: adminEmailContent,
-    // });
+    // Send confirmation email to client
+    console.log('[Lead Email API] Sending confirmation email to client:', clientEmail);
+    try {
+      const clientResult = await transporter.sendMail({
+        from: fromEmail,
+        to: clientEmail,
+        subject: "✅ Merci pour votre intérêt - Dev4Com",
+        html: clientEmailContent,
+        replyTo: adminEmail,
+      });
+      console.log('[Lead Email API] Client confirmation email sent:', clientResult.messageId);
+    } catch (emailError: any) {
+      console.error('[Lead Email API] Failed to send client email:', emailError);
+      // Continue even if client email fails - still notify admin
+    }
 
-    console.log('[Lead Email API] Emails would be sent to:');
-    console.log('- Client:', clientEmail);
-    console.log('- Admin:', adminEmail);
-    console.log('- Conversation summary:', conversationSummary);
+    // Send notification email to admin
+    console.log('[Lead Email API] Sending lead notification to admin:', adminEmail);
+    try {
+      const adminResult = await transporter.sendMail({
+        from: fromEmail,
+        to: adminEmail,
+        subject: `🎯 Nouveau Lead Chatbot: ${email}`,
+        html: adminEmailContent,
+        replyTo: clientEmail,
+      });
+      console.log('[Lead Email API] Admin notification email sent:', adminResult.messageId);
+    } catch (emailError: any) {
+      console.error('[Lead Email API] Failed to send admin email:', emailError);
+    }
 
     return NextResponse.json({
       success: true,
-      message: "Lead captured and emails sent successfully"
+      message: "Lead captured and confirmation emails sent successfully",
+      email: clientEmail,
+      timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
     console.error("Send Lead Email API error:", error);

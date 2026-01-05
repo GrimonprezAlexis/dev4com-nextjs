@@ -214,12 +214,12 @@ export default function MentionsLegales() {
                             {item}
                           </p>
                         );
-                      } else if (item.label) {
+                      } else if (typeof item === 'object' && 'label' in item && 'value' in item) {
                         return (
                           <div key={idx} className="border-l-2 border-blue-400 pl-4">
                             <p className="font-semibold text-white">{item.label}</p>
                             <p className="text-gray-300">{item.value}</p>
-                            {item.details && (
+                            {'details' in item && item.details && (
                               <p className="text-gray-400 text-sm mt-1">{item.details}</p>
                             )}
                           </div>
