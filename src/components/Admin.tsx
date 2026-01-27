@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, User, Settings, Mail, LogOut, FolderKanban, Code } from 'lucide-react';
+import { Lock, User, Settings, Mail, LogOut, FolderKanban, Code, Music, Download } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import ProjectsManager from './admin/ProjectsManager';
 import SettingsPanel from './admin/SettingsPanel';
+import AudioManager from './admin/AudioManager';
+import DataExport from './admin/DataExport';
 
 const Admin: React.FC = () => {
   const { user, signIn, signUp, signOut, error, clearError } = useAuth();
@@ -54,6 +56,8 @@ const Admin: React.FC = () => {
 
   const adminSections = [
     { id: 'projects', icon: <FolderKanban size={24} />, title: 'Projets', component: ProjectsManager },
+    { id: 'audio', icon: <Music size={24} />, title: 'Audio', component: AudioManager },
+    { id: 'export', icon: <Download size={24} />, title: 'Export', component: DataExport },
     { id: 'settings', icon: <Settings size={24} />, title: 'Paramètres', component: SettingsPanel },
     { id: 'dev-gen', icon: <Code size={24} />, title: 'Dev GEN', href: 'https://dev4com-gen-invoice.vercel.app' },
   ];

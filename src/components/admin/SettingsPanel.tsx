@@ -6,8 +6,10 @@ import { updateEmail, EmailAuthProvider, reauthenticateWithCredential } from 'fi
 
 const SettingsPanel: React.FC = () => {
   const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [audioMaintenanceMode, setAudioMaintenanceMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [savingAudio, setSavingAudio] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
   // États pour la modification d'email
@@ -33,6 +35,18 @@ const SettingsPanel: React.FC = () => {
         // Créer le document s'il n'existe pas
         await setDoc(docRef, { enabled: false });
         setMaintenanceMode(false);
+      }
+
+      // Charger aussi le statut de maintenance audio
+      const audioDocRef = doc(db, 'settings', 'audioMaintenance');
+      const audioDocSnap = await getDoc(audioDocRef);
+
+      if (audioDocSnap.exists()) {
+        setAudioMaintenanceMode(audioDocSnap.data().enabled || false);
+      } else {
+        // Créer le document s'il n'existe pas
+        await setDoc(audioDocRef, { enabled: false });
+        setAudioMaintenanceMode(false);
       }
     } catch (error) {
       console.error('Error fetching maintenance status:', error);
@@ -72,6 +86,39 @@ const SettingsPanel: React.FC = () => {
       setMessage({ type: 'error', text: 'Erreur lors de la mise à jour' });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleAudioMaintenanceToggle = async () => {
+    if (!auth.currentUser) {
+      setMessage({ type: 'error', text: 'Authentification requise' });
+      return;
+    }
+
+    try {
+      setSavingAudio(true);
+      const newStatus = !audioMaintenanceMode;
+
+      // Sauvegarder dans Firestore
+      await setDoc(doc(db, 'settings', 'audioMaintenance'), {
+        enabled: newStatus,
+        updatedAt: new Date(),
+        updatedBy: auth.currentUser.email
+      });
+
+      setAudioMaintenanceMode(newStatus);
+      setMessage({
+        type: 'success',
+        text: `Mode maintenance Audio ${newStatus ? 'activé' : 'désactivé'} avec succès`
+      });
+
+      // Effacer le message après 3 secondes
+      setTimeout(() => setMessage(null), 3000);
+    } catch (error) {
+      console.error('Error updating audio maintenance status:', error);
+      setMessage({ type: 'error', text: 'Erreur lors de la mise à jour' });
+    } finally {
+      setSavingAudio(false);
     }
   };
 
@@ -320,6 +367,51 @@ const SettingsPanel: React.FC = () => {
               </div>
               <p className="text-xs text-yellow-400/70 mt-2">
                 Les visiteurs verront un message de maintenance sur la page d'accueil.
+              </p>
+            </div>
+          )}
+
+          {/* Mode Maintenance Audio */}
+          <div className="flex items-start justify-between pt-6 border-t border-white/5">
+            <div className="flex-1">
+              <label htmlFor="audioMaintenance" className="text-sm font-medium text-white block mb-1">
+                Mode maintenance Audio
+              </label>
+              <p className="text-xs text-gray-400">
+                Affiche un message de maintenance sur la page Audio (/audio)
+              </p>
+            </div>
+
+            {loading ? (
+              <div className="w-12 h-6 bg-gray-700 rounded-full animate-pulse" />
+            ) : (
+              <button
+                onClick={handleAudioMaintenanceToggle}
+                disabled={savingAudio}
+                className={`w-12 h-6 rounded-full p-1 transition-all ${
+                  audioMaintenanceMode ? "bg-purple-500" : "bg-gray-700"
+                } ${savingAudio ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-80'}`}
+              >
+                <div
+                  className={`w-4 h-4 rounded-full bg-white transform transition-transform ${
+                    audioMaintenanceMode ? "translate-x-6" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            )}
+          </div>
+
+          {/* Indicateur d'état Audio */}
+          {audioMaintenanceMode && (
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
+              <div className="flex items-center gap-2 text-purple-400">
+                <AlertCircle size={18} />
+                <span className="text-sm font-medium">
+                  Le mode maintenance Audio est actuellement activé
+                </span>
+              </div>
+              <p className="text-xs text-purple-400/70 mt-2">
+                Les visiteurs verront un message de maintenance sur la page Audio.
               </p>
             </div>
           )}
