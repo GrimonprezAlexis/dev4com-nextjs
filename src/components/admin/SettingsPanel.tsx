@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Database, AlertCircle, CheckCircle, User, Mail } from "lucide-react";
+import { Database, AlertCircle, CheckCircle, User, Mail, Lock, KeyRound } from "lucide-react";
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
-import { updateEmail, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
+import { updateEmail, EmailAuthProvider, reauthenticateWithCredential, sendPasswordResetEmail } from 'firebase/auth';
 
 const SettingsPanel: React.FC = () => {
   const [maintenanceMode, setMaintenanceMode] = useState(false);
@@ -17,6 +17,9 @@ const SettingsPanel: React.FC = () => {
   const [newEmail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
   const [updatingEmail, setUpdatingEmail] = useState(false);
+
+  // État pour la réinitialisation du mot de passe
+  const [sendingReset, setSendingReset] = useState(false);
 
   // Charger l'état du mode maintenance depuis Firestore
   useEffect(() => {
@@ -205,6 +208,28 @@ const SettingsPanel: React.FC = () => {
     setMessage(null);
   };
 
+  const handleSendPasswordReset = async () => {
+    if (!auth.currentUser?.email) {
+      setMessage({ type: 'error', text: 'Authentification requise' });
+      return;
+    }
+
+    try {
+      setSendingReset(true);
+      await sendPasswordResetEmail(auth, auth.currentUser.email);
+      setMessage({
+        type: 'success',
+        text: 'Un email de réinitialisation a été envoyé à votre adresse'
+      });
+      setTimeout(() => setMessage(null), 5000);
+    } catch (error: any) {
+      console.error('Error sending password reset:', error);
+      setMessage({ type: 'error', text: 'Erreur lors de l\'envoi de l\'email de réinitialisation' });
+    } finally {
+      setSendingReset(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -309,6 +334,29 @@ const SettingsPanel: React.FC = () => {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Modification Mot de passe */}
+          <div className="pt-6 border-t border-white/5">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <label className="text-sm font-medium text-white block mb-1">
+                  Mot de passe
+                </label>
+                <p className="text-xs text-gray-400">
+                  Recevez un lien de réinitialisation par email
+                </p>
+              </div>
+
+              <button
+                onClick={handleSendPasswordReset}
+                disabled={sendingReset}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500/20 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <KeyRound size={16} />
+                {sendingReset ? 'Envoi...' : 'Réinitialiser'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

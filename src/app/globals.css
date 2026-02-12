@@ -57,3 +57,12 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+/* Admin mobile nav scrollbar hide */
+.admin-scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.admin-scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
