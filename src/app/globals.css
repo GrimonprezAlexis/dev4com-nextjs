@@ -66,3 +66,31 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Bezier loader curve flow animations */
+@keyframes bezierFlow {
+  from { stroke-dashoffset: 1200; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes bezierFlowReverse {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -1200; }
+}
+
+@keyframes scanLine {
+  0% { transform: translateY(-120px); }
+  100% { transform: translateY(100vh); }
+}
+
+.bezier-flow {
+  animation-name: bezierFlow;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.bezier-flow-reverse {
+  animation-name: bezierFlowReverse;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
