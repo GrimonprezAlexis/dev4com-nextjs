@@ -6,8 +6,7 @@
 📍 **URL :** https://dev4com.vercel.app/mentions-legales
 
 Contient les informations obligatoires :
-- Identification complète (SIREN, SIRET, adresse)
-- Responsable légal (Alexis Grimonprez)
+- Identification de l'éditeur (nom commercial, localisation, email)
 - Hébergeurs (Vercel + Hostinger)
 - Propriété intellectuelle
 - Responsabilité
@@ -163,29 +162,16 @@ Utilisateur → Message → Anthropic API → Claude Opus 4.5 → Réponse
 
 ### Responsable de traitement
 ```
-Alexis Grimonprez
 Dev4Ecom
-
-Entité France :
-Micro-entreprise (Auto-entrepreneur)
-SIREN : 940 216 138
-SIRET : 940 216 138 00013
-60 Rue François Ier, 75008 Paris, France
-
-Entité Suisse :
-Raison individuelle (CCVD)
-Rue des Moulins 33, 1800 Vevey, Suisse
-
+Lausanne, Suisse
 contact@dev4com.com
 ```
 
-### CNIL (Autorité de contrôle)
-En cas de plainte RGPD :
+### Autorité de contrôle (Suisse)
+En cas de plainte :
 ```
-Commission Nationale de l'Informatique et des Libertés
-3 Place de Fontenoy
-75007 Paris, France
-www.cnil.fr
+Préposé fédéral à la protection des données et à la transparence (PFPDT)
+www.edoeb.admin.ch
 ```
 
 ---
@@ -194,8 +180,8 @@ www.cnil.fr
 
 - [x] **Mentions Légales** : Complètes et conformes LCEN
 - [x] **Politique de Confidentialité** : Conforme RGPD
-- [x] **Identification légale** : SIREN, SIRET, adresse
-- [x] **Responsable légal** : Identifié (Alexis Grimonprez)
+- [x] **Identification légale** : Nom commercial, localisation, email
+- [x] **Éditeur** : Identifié
 - [x] **Droits RGPD** : Tous les 7 droits documentés
 - [x] **Sous-traitants** : Listés et conformes
 - [x] **Sécurité** : Mesures décrites

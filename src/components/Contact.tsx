@@ -104,7 +104,7 @@ const Contact: React.FC = () => {
     {
       icon: <MapPin size={24} />,
       title: "Adresse",
-      value: "Rue des Moulins 33, 1800 Vevey, Suisse",
+      value: "Lausanne, Suisse",
       delay: 0.3,
     },
   ];
@@ -310,14 +310,14 @@ const Contact: React.FC = () => {
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none z-10" />
 
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2750.0!2d6.8432!3d46.4631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c2e3a1b1b1b1b%3A0x1b1b1b1b1b1b1b1b!2sRue%20des%20Moulins%2033%2C%201800%20Vevey%2C%20Suisse!5e0!3m2!1sfr!2sch!4v1234567890123!5m2!1sfr!2sch"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d43890.0!2d6.6000!3d46.5200!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c2e8b4e8d0d3b%3A0x8c7f0e9c3b5e7d2a!2sLausanne%2C%20Suisse!5e0!3m2!1sfr!2sch!4v1234567890123!5m2!1sfr!2sch"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Google Map - Rue des Moulins 33, 1800 Vevey, Suisse"
+              title="Google Map - Lausanne, Suisse"
               className="relative z-0"
             />
           </div>

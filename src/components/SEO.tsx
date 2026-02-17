@@ -111,15 +111,14 @@ const SEO: React.FC<SEOProps> = ({
           "telephone": "+33-1-23-45-67-89",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Rue des Moulins 33",
-            "addressLocality": "Vevey",
-            "postalCode": "1800",
+            "addressLocality": "Lausanne",
+            "postalCode": "1004",
             "addressCountry": "CH"
           },
           "geo": {
             "@type": "GeoCoordinates",
-            "latitude": 46.4631,
-            "longitude": 6.8432
+            "latitude": 46.5197,
+            "longitude": 6.6323
           },
           "openingHoursSpecification": {
             "@type": "OpeningHoursSpecification",

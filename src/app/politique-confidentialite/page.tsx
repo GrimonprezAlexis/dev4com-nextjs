@@ -176,14 +176,12 @@ export default function PolitiqueConfidentialite() {
       title: '12. Droits spécifiques RGPD',
       content: [
         'Responsable de traitement :',
-        'Alexis Grimonprez, Dev4Ecom',
-        'France : 60 Rue François Ier, 75008 Paris | Suisse : Rue des Moulins 33, 1800 Vevey',
+        'Dev4Ecom — Lausanne, Suisse',
         'contact@dev4com.com',
         'Délégué à la Protection des Données (DPD) :',
-        'Nous n\'avons pas de DPD désigné en tant que micro-entreprise, mais vous pouvez nous contacter pour toute question.',
+        'Vous pouvez nous contacter pour toute question relative à la protection de vos données.',
         'Droit de réclamation :',
-        'Vous avez le droit de déposer une plainte auprès de la CNIL :',
-        'CNIL, 3 Place de Fontenoy, 75007 Paris | www.cnil.fr'
+        'Vous avez le droit de déposer une plainte auprès du Préposé fédéral à la protection des données et à la transparence (PFPDT).'
       ]
     },
     {
@@ -200,9 +198,8 @@ export default function PolitiqueConfidentialite() {
       content: [
         'Pour toute question ou demande concernant vos données personnelles :',
         'Email : contact@dev4com.com',
-        'Adresse France : 60 Rue François Ier, 75008 Paris',
-        'Adresse Suisse : Rue des Moulins 33, 1800 Vevey',
-        'Délai de réponse : 30 jours (conformément au RGPD)'
+        'Localisation : Lausanne, Suisse',
+        'Délai de réponse : 30 jours'
       ]
     }
   ];

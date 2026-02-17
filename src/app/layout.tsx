@@ -117,9 +117,9 @@ export const metadata: Metadata = {
   other: {
     "format-detection": "telephone=no",
     "geo.region": "CH-VD",
-    "geo.placename": "Vevey",
-    "geo.position": "46.4631;6.8432",
-    ICBM: "46.4631, 6.8432",
+    "geo.placename": "Lausanne",
+    "geo.position": "46.5197;6.6323",
+    ICBM: "46.5197, 6.6323",
   },
 };
 
@@ -145,16 +145,15 @@ const jsonLd = {
   email: "contact@dev4com.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Rue des Moulins 33",
-    addressLocality: "Vevey",
-    postalCode: "1800",
+    addressLocality: "Lausanne",
+    postalCode: "1004",
     addressRegion: "Vaud",
     addressCountry: "CH",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 46.4631,
-    longitude: 6.8432,
+    latitude: 46.5197,
+    longitude: 6.6323,
   },
   areaServed: [
     {
@@ -193,10 +192,6 @@ const jsonLd = {
     "Référencement SEO",
     "Webdesign",
   ],
-  founder: {
-    "@type": "Person",
-    name: "Alexis Grimonprez",
-  },
 };
 
 export default function RootLayout({

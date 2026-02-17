@@ -44,16 +44,7 @@ export default function MentionsLegales() {
       title: '1. Éditeur du site',
       content: [
         { label: 'Nom commercial', value: 'Dev4Ecom' },
-        { label: 'Responsable légal', value: 'Alexis Grimonprez' },
-        'Entité France :',
-        { label: 'Statut juridique', value: 'Micro-entreprise (Auto-entrepreneur)' },
-        { label: 'SIREN', value: '940 216 138' },
-        { label: 'SIRET', value: '940 216 138 00013' },
-        { label: 'Adresse (France)', value: '60 Rue François Ier, 75008 Paris, France' },
-        'Entité Suisse :',
-        { label: 'Statut juridique', value: 'Raison individuelle' },
-        { label: 'Caisse de compensation', value: 'CCVD (Caisse Cantonale Vaudoise de Compensation)' },
-        { label: 'Adresse (Suisse)', value: 'Rue des Moulins 33, 1800 Vevey, Suisse' },
+        { label: 'Localisation', value: 'Lausanne, Suisse' },
         { label: 'Email', value: 'contact@dev4com.com' }
       ]
     },
@@ -155,9 +146,9 @@ export default function MentionsLegales() {
       id: 'droit-applicable',
       title: '11. Droit applicable et litiges',
       content: [
-        'Pour l\'entité française, ces Mentions Légales sont soumises à la loi française et à la juridiction des tribunaux français. Pour l\'entité suisse, le droit suisse s\'applique avec la juridiction des tribunaux du Canton de Vaud.',
+        'Ces Mentions Légales sont soumises au droit suisse et à la juridiction des tribunaux du Canton de Vaud.',
         'En cas de litige, vous avez la possibilité de contacter Dev4Ecom pour trouver une résolution à l\'amiable.',
-        'Pour les réclamations relatives à la protection des données : en France, saisir la CNIL (www.cnil.fr) ; en Suisse, contacter le Préposé fédéral à la protection des données (PFPDT).'
+        'Pour les réclamations relatives à la protection des données, vous pouvez contacter le Préposé fédéral à la protection des données et à la transparence (PFPDT).'
       ]
     },
     {
@@ -166,8 +157,7 @@ export default function MentionsLegales() {
       content: [
         'Pour toute question ou réclamation concernant ces Mentions Légales, veuillez nous contacter :',
         'Email : contact@dev4com.com',
-        'Adresse France : 60 Rue François Ier, 75008 Paris, France',
-        'Adresse Suisse : Rue des Moulins 33, 1800 Vevey, Suisse'
+        'Localisation : Lausanne, Suisse'
       ]
     }
   ];
