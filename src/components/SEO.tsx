@@ -31,7 +31,8 @@ const SEO: React.FC<SEOProps> = ({
     "React",
     "Node.js",
     "transformation digitale",
-    "Paris"
+    "Lausanne",
+    "Annecy"
   ],
   image = "https://dev4com.com/og-image.jpg",
   url = "https://dev4com.com",
@@ -110,15 +111,15 @@ const SEO: React.FC<SEOProps> = ({
           "telephone": "+33-1-23-45-67-89",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "123 Avenue des Champs-Élysées",
-            "addressLocality": "Paris",
-            "postalCode": "75008",
-            "addressCountry": "FR"
+            "streetAddress": "Rue des Moulins 33",
+            "addressLocality": "Vevey",
+            "postalCode": "1800",
+            "addressCountry": "CH"
           },
           "geo": {
             "@type": "GeoCoordinates",
-            "latitude": 48.8566,
-            "longitude": 2.3522
+            "latitude": 46.4631,
+            "longitude": 6.8432
           },
           "openingHoursSpecification": {
             "@type": "OpeningHoursSpecification",

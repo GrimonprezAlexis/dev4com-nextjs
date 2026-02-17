@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Send, Loader2 } from "lucide-react";
+import Link from "next/link";
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({
@@ -98,11 +99,12 @@ const Contact: React.FC = () => {
       title: "Email",
       value: "contact@dev4com.com",
       delay: 0.2,
+      href: "/contact",
     },
     {
       icon: <MapPin size={24} />,
       title: "Adresse",
-      value: "60 Rue François 1er, 75008 Paris, France",
+      value: "Rue des Moulins 33, 1800 Vevey, Suisse",
       delay: 0.3,
     },
   ];
@@ -130,27 +132,41 @@ const Contact: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <motion.div variants={containerVariants}>
             <div className="grid gap-8">
-              {contactInfo.map((info) => (
-                <motion.div
-                  key={info.title}
-                  className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-xl"
-                  variants={itemVariants}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: info.delay }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
+              {contactInfo.map((info) => {
+                const content = (
                   <div className="flex items-center space-x-4">
                     <div className="text-blue-400">{info.icon}</div>
                     <div>
                       <h3 className="text-lg font-semibold mb-1">
                         {info.title}
                       </h3>
-                      <p className="text-gray-400">{info.value}</p>
+                      <p className={`text-gray-400${info.href ? " group-hover:text-blue-400 transition-colors" : ""}`}>
+                        {info.value}
+                      </p>
                     </div>
                   </div>
-                </motion.div>
-              ))}
+                );
+
+                return (
+                  <motion.div
+                    key={info.title}
+                    className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-xl group"
+                    variants={itemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ delay: info.delay }}
+                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  >
+                    {info.href ? (
+                      <Link href={info.href} className="block">
+                        {content}
+                      </Link>
+                    ) : (
+                      content
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
 
@@ -294,14 +310,14 @@ const Contact: React.FC = () => {
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none z-10" />
 
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.253244117765!2d2.3012544!3d48.8698679!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fc11d87c7d7%3A0x82b1a6f0b7e51c22!2s60%20Rue%20Fran%C3%A7ois%201er%2C%2075008%20Paris%2C%20France!5e0!3m2!1sen!2sfr!4v1234567890123!5m2!1sen!2sfr"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2750.0!2d6.8432!3d46.4631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c2e3a1b1b1b1b%3A0x1b1b1b1b1b1b1b1b!2sRue%20des%20Moulins%2033%2C%201800%20Vevey%2C%20Suisse!5e0!3m2!1sfr!2sch!4v1234567890123!5m2!1sfr!2sch"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Google Map - 60 Rue François 1er, 75008 Paris, France"
+              title="Google Map - Rue des Moulins 33, 1800 Vevey, Suisse"
               className="relative z-0"
             />
           </div>

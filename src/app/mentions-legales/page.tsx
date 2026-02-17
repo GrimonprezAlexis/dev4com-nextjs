@@ -2,7 +2,23 @@
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
+
+function linkifyEmail(text: string) {
+  const email = 'contact@dev4com.com';
+  if (!text.includes(email)) return text;
+  const parts = text.split(email);
+  return (
+    <>
+      {parts[0]}
+      <Link href="/contact" className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors">
+        {email}
+      </Link>
+      {parts[1]}
+    </>
+  );
+}
 
 export default function MentionsLegales() {
   const containerVariants = {
@@ -29,10 +45,15 @@ export default function MentionsLegales() {
       content: [
         { label: 'Nom commercial', value: 'Dev4Ecom' },
         { label: 'Responsable légal', value: 'Alexis Grimonprez' },
+        'Entité France :',
         { label: 'Statut juridique', value: 'Micro-entreprise (Auto-entrepreneur)' },
         { label: 'SIREN', value: '940 216 138' },
         { label: 'SIRET', value: '940 216 138 00013' },
-        { label: 'Adresse', value: '60 Rue François Ier, 75008 Paris, France' },
+        { label: 'Adresse (France)', value: '60 Rue François Ier, 75008 Paris, France' },
+        'Entité Suisse :',
+        { label: 'Statut juridique', value: 'Raison individuelle' },
+        { label: 'Caisse de compensation', value: 'CCVD (Caisse Cantonale Vaudoise de Compensation)' },
+        { label: 'Adresse (Suisse)', value: 'Rue des Moulins 33, 1800 Vevey, Suisse' },
         { label: 'Email', value: 'contact@dev4com.com' }
       ]
     },
@@ -94,12 +115,11 @@ export default function MentionsLegales() {
     },
     {
       id: 'chatbot',
-      title: '7. Assistant IA (Chatbot)',
+      title: '7. Assistant (Chatbot)',
       content: [
-        'Dev4Ecom utilise un assistant IA (chatbot) pour améliorer le service client. Cet assistant est alimenté par Claude Opus 4.5 (Anthropic).',
-        'Les messages du chatbot sont traités par Anthropic selon leurs conditions d\'utilisation.',
-        'Les emails fournis au chatbot sont collectés et traités selon notre Politique de Confidentialité.',
-        'Limitation : L\'assistant IA fournit des informations à titre informatif. Dev4Ecom décline toute responsabilité en cas d\'erreur ou d\'omission.'
+        'Dev4Ecom utilise un assistant automatisé (chatbot) pour faciliter la navigation et répondre aux questions fréquentes.',
+        'L\'assistant fonctionne entièrement côté client et ne transmet aucune donnée à des services tiers.',
+        'Limitation : L\'assistant fournit des informations à titre indicatif. Pour toute demande précise, veuillez nous contacter directement par email à contact@dev4com.com.'
       ]
     },
     {
@@ -135,9 +155,9 @@ export default function MentionsLegales() {
       id: 'droit-applicable',
       title: '11. Droit applicable et litiges',
       content: [
-        'Ces Mentions Légales sont soumises à la loi française et à la juridiction des tribunaux français.',
+        'Pour l\'entité française, ces Mentions Légales sont soumises à la loi française et à la juridiction des tribunaux français. Pour l\'entité suisse, le droit suisse s\'applique avec la juridiction des tribunaux du Canton de Vaud.',
         'En cas de litige, vous avez la possibilité de contacter Dev4Ecom pour trouver une résolution à l\'amiable.',
-        'Pour les réclamations relatives à la protection des données, vous pouvez également saisir la CNIL (Commission Nationale de l\'Informatique et des Libertés) via www.cnil.fr.'
+        'Pour les réclamations relatives à la protection des données : en France, saisir la CNIL (www.cnil.fr) ; en Suisse, contacter le Préposé fédéral à la protection des données (PFPDT).'
       ]
     },
     {
@@ -146,7 +166,8 @@ export default function MentionsLegales() {
       content: [
         'Pour toute question ou réclamation concernant ces Mentions Légales, veuillez nous contacter :',
         'Email : contact@dev4com.com',
-        'Adresse : 60 Rue François Ier, 75008 Paris, France'
+        'Adresse France : 60 Rue François Ier, 75008 Paris, France',
+        'Adresse Suisse : Rue des Moulins 33, 1800 Vevey, Suisse'
       ]
     }
   ];
@@ -211,14 +232,14 @@ export default function MentionsLegales() {
                       if (typeof item === 'string') {
                         return (
                           <p key={idx} className="text-gray-300 leading-relaxed">
-                            {item}
+                            {linkifyEmail(item)}
                           </p>
                         );
                       } else if (typeof item === 'object' && 'label' in item && 'value' in item) {
                         return (
                           <div key={idx} className="border-l-2 border-blue-400 pl-4">
                             <p className="font-semibold text-white">{item.label}</p>
-                            <p className="text-gray-300">{item.value}</p>
+                            <p className="text-gray-300">{typeof item.value === 'string' ? linkifyEmail(item.value) : item.value}</p>
                             {'details' in item && item.details && (
                               <p className="text-gray-400 text-sm mt-1">{item.details}</p>
                             )}

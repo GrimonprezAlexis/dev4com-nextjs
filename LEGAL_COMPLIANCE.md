@@ -164,10 +164,18 @@ Utilisateur → Message → Anthropic API → Claude Opus 4.5 → Réponse
 ### Responsable de traitement
 ```
 Alexis Grimonprez
-Dev4Ecom - Micro-entreprise
+Dev4Ecom
+
+Entité France :
+Micro-entreprise (Auto-entrepreneur)
 SIREN : 940 216 138
 SIRET : 940 216 138 00013
 60 Rue François Ier, 75008 Paris, France
+
+Entité Suisse :
+Raison individuelle (CCVD)
+Rue des Moulins 33, 1800 Vevey, Suisse
+
 contact@dev4com.com
 ```
 

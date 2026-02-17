@@ -92,7 +92,7 @@ export async function POST(request: Request) {
           </div>
           <div class="footer">
             <p>DEV4COM - Solutions digitales sur mesure</p>
-            <p>60 Rue François 1er, 75008 Paris, France</p>
+            <p>Rue des Moulins 33, 1800 Vevey, Suisse</p>
             <p>Email: contact@dev4com.com</p>
           </div>
         </div>

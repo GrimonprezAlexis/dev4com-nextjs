@@ -2,7 +2,23 @@
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
+
+function linkifyEmail(text: string) {
+  const email = 'contact@dev4com.com';
+  if (!text.includes(email)) return text;
+  const parts = text.split(email);
+  return (
+    <>
+      {parts[0]}
+      <Link href="/contact" className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors">
+        {email}
+      </Link>
+      {parts[1]}
+    </>
+  );
+}
 
 export default function PolitiqueConfidentialite() {
   const containerVariants = {
@@ -74,7 +90,7 @@ export default function PolitiqueConfidentialite() {
       title: '5. Partage des données',
       content: [
         'Vos données peuvent être partagées avec :',
-        '• Sous-traitants : Vercel (hébergement), Hostinger (email), Firebase (authentification), Anthropic (chatbot IA)',
+        '• Sous-traitants : Vercel (hébergement), Hostinger (email), Firebase (authentification)',
         '• Prestataires : Fournisseurs de services email, analytics, CRM',
         '• Autorités légales : Si légalement obligé (police, justice)',
         'Nous garantissons que tous les sous-traitants respectent la protection des données.'
@@ -122,14 +138,12 @@ export default function PolitiqueConfidentialite() {
     },
     {
       id: 'chatbot',
-      title: '9. Traitement par le Chatbot IA',
+      title: '9. Assistant automatisé (Chatbot)',
       content: [
-        'Notre chatbot est alimenté par Claude Opus 4.5 (Anthropic). Voici comment vos données sont traitées :',
-        '• Vos messages : Envoyés à Anthropic pour traitement IA',
-        '• Emails capturés : Stockés de manière sécurisée et non partagés avec Anthropic au-delà du traitement',
-        '• Historique : Conservé pendant la durée de la conversation puis supprimé',
-        '• Données utilisées par Anthropic : Selon leur politique de confidentialité',
-        'Pour plus de détails, consultez la politique d\'Anthropic : https://www.anthropic.com/privacy'
+        'Notre assistant fonctionne entièrement côté client (dans votre navigateur). Aucune donnée n\'est transmise à des services tiers.',
+        '• Vos messages : Traités localement dans votre navigateur',
+        '• Aucun stockage serveur : Les conversations ne sont pas enregistrées',
+        '• Aucun transfert de données : L\'assistant ne communique avec aucune API externe'
       ]
     },
     {
@@ -152,7 +166,6 @@ export default function PolitiqueConfidentialite() {
       title: '11. Transferts internationaux',
       content: [
         'Vos données peuvent être transférées hors de l\'UE :',
-        '• Anthropic (États-Unis)',
         '• Vercel (États-Unis)',
         '• Hostinger (Lituanie)',
         'Ces transferts sont sécurisés via des clauses contractuelles (Standard Contractual Clauses) conformes au RGPD.'
@@ -163,7 +176,8 @@ export default function PolitiqueConfidentialite() {
       title: '12. Droits spécifiques RGPD',
       content: [
         'Responsable de traitement :',
-        'Alexis Grimonprez, Dev4Ecom, 60 Rue François Ier, 75008 Paris',
+        'Alexis Grimonprez, Dev4Ecom',
+        'France : 60 Rue François Ier, 75008 Paris | Suisse : Rue des Moulins 33, 1800 Vevey',
         'contact@dev4com.com',
         'Délégué à la Protection des Données (DPD) :',
         'Nous n\'avons pas de DPD désigné en tant que micro-entreprise, mais vous pouvez nous contacter pour toute question.',
@@ -186,7 +200,8 @@ export default function PolitiqueConfidentialite() {
       content: [
         'Pour toute question ou demande concernant vos données personnelles :',
         'Email : contact@dev4com.com',
-        'Adresse : 60 Rue François Ier, 75008 Paris, France',
+        'Adresse France : 60 Rue François Ier, 75008 Paris',
+        'Adresse Suisse : Rue des Moulins 33, 1800 Vevey',
         'Délai de réponse : 30 jours (conformément au RGPD)'
       ]
     }
@@ -249,7 +264,7 @@ export default function PolitiqueConfidentialite() {
                 <div className="space-y-4">
                   {section.content.map((item, idx) => (
                     <p key={idx} className="text-gray-300 leading-relaxed">
-                      {item}
+                      {linkifyEmail(item)}
                     </p>
                   ))}
                 </div>
