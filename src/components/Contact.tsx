@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Send, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({
@@ -130,17 +131,20 @@ const Contact: React.FC = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <motion.div variants={containerVariants}>
-            <div className="grid gap-8">
+          <motion.div variants={containerVariants} className="space-y-6">
+            {/* Contact Info Cards */}
+            <div className="grid gap-4">
               {contactInfo.map((info) => {
                 const content = (
                   <div className="flex items-center space-x-4">
-                    <div className="text-blue-400">{info.icon}</div>
+                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 flex-shrink-0">
+                      {info.icon}
+                    </div>
                     <div>
-                      <h3 className="text-lg font-semibold mb-1">
+                      <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">
                         {info.title}
                       </h3>
-                      <p className={`text-gray-400${info.href ? " group-hover:text-blue-400 transition-colors" : ""}`}>
+                      <p className={`text-white font-medium${info.href ? " group-hover:text-blue-400 transition-colors" : ""}`}>
                         {info.value}
                       </p>
                     </div>
@@ -150,12 +154,12 @@ const Contact: React.FC = () => {
                 return (
                   <motion.div
                     key={info.title}
-                    className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-xl group"
+                    className="bg-gradient-to-br from-gray-900/80 to-black/60 backdrop-blur-sm p-5 rounded-xl border border-white/5 group"
                     variants={itemVariants}
                     initial="hidden"
                     animate="visible"
                     transition={{ delay: info.delay }}
-                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                    whileHover={{ y: -3, transition: { duration: 0.2 } }}
                   >
                     {info.href ? (
                       <Link href={info.href} className="block">
@@ -168,6 +172,41 @@ const Contact: React.FC = () => {
                 );
               })}
             </div>
+
+            {/* Portrait & Mini Bio */}
+            <motion.div
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.4 }}
+              className="bg-gradient-to-br from-gray-900/80 to-black/60 backdrop-blur-sm p-6 rounded-xl border border-white/5"
+            >
+              <div className="flex items-center gap-5">
+                <motion.div
+                  className="relative flex-shrink-0"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-blue-500/30 ring-offset-2 ring-offset-black/50">
+                    <Image
+                      src="/images/alex-portrait.jpg"
+                      alt="Alex - Fondateur DEV4COM"
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-black" />
+                </motion.div>
+                <div className="min-w-0">
+                  <h3 className="text-white font-semibold text-base">Alex</h3>
+                  <p className="text-blue-400 text-sm font-medium mb-1.5">Fondateur & Développeur</p>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                    Passionné par le web et le e-commerce, je vous accompagne de A à Z dans vos projets digitaux.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
@@ -301,7 +340,7 @@ const Contact: React.FC = () => {
               Notre Localisation
             </h2>
             <p className="text-gray-400">
-              Venez nous rendre visite à notre bureau parisien
+              Basés à Lausanne, en Suisse romande
             </p>
           </div>
 
