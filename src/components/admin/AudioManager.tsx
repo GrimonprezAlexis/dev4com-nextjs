@@ -3,7 +3,7 @@ import { Upload, Search, Grid, List, Plus, Edit2, Trash2, X, Save, Music, Play, 
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { uploadToS3, deleteFromS3 } from '../../lib/s3';
+import { uploadFile, deleteFile } from '../../lib/uploadClient';
 import { AudioFile, AudioStatus, AUDIO_STATUSES, AUDIO_CATEGORIES } from '../../types/audio';
 
 const AudioManager: React.FC = () => {
@@ -181,7 +181,7 @@ const AudioManager: React.FC = () => {
       if (selectedFile) {
         try {
           console.log('Uploading audio to S3...');
-          fileUrl = await uploadToS3(selectedFile, 'audio');
+          fileUrl = await uploadFile(selectedFile, 'audio');
           console.log('Audio uploaded successfully:', fileUrl);
         } catch (uploadError) {
           console.error('S3 upload error:', uploadError);
@@ -193,7 +193,7 @@ const AudioManager: React.FC = () => {
       if (selectedCover) {
         try {
           console.log('Uploading cover to S3...');
-          coverUrl = await uploadToS3(selectedCover, 'audio-covers');
+          coverUrl = await uploadFile(selectedCover, 'audio-covers');
           console.log('Cover uploaded successfully:', coverUrl);
         } catch (uploadError) {
           console.error('S3 cover upload error:', uploadError);
@@ -222,14 +222,14 @@ const AudioManager: React.FC = () => {
         // Delete old files if new ones were uploaded
         if (selectedFile && editingAudio.fileUrl && editingAudio.fileUrl !== fileUrl) {
           try {
-            await deleteFromS3(editingAudio.fileUrl);
+            await deleteFile(editingAudio.fileUrl);
           } catch (err) {
             console.error('Error deleting old audio (non-critical):', err);
           }
         }
         if (selectedCover && editingAudio.coverUrl && editingAudio.coverUrl !== coverUrl) {
           try {
-            await deleteFromS3(editingAudio.coverUrl);
+            await deleteFile(editingAudio.coverUrl);
           } catch (err) {
             console.error('Error deleting old cover (non-critical):', err);
           }
@@ -271,7 +271,7 @@ const AudioManager: React.FC = () => {
 
       if (audio.fileUrl) {
         try {
-          await deleteFromS3(audio.fileUrl);
+          await deleteFile(audio.fileUrl);
         } catch (err) {
           console.error('Error deleting audio from S3:', err);
         }
@@ -279,7 +279,7 @@ const AudioManager: React.FC = () => {
 
       if (audio.coverUrl) {
         try {
-          await deleteFromS3(audio.coverUrl);
+          await deleteFile(audio.coverUrl);
         } catch (err) {
           console.error('Error deleting cover from S3:', err);
         }

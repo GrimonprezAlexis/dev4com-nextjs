@@ -3,7 +3,7 @@ import { Upload, Search, Grid, List, Plus, Edit2, Trash2, X, Save, Calendar, Ext
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { uploadToS3, deleteFromS3 } from '../../lib/s3';
+import { uploadFile, deleteFile } from '../../lib/uploadClient';
 import { Project, ProjectStatus, PROJECT_STATUSES } from '../../types/project';
 
 const ProjectsManager: React.FC = () => {
@@ -168,7 +168,7 @@ const ProjectsManager: React.FC = () => {
       if (selectedFile) {
         try {
           console.log('Uploading image to S3...');
-          imageUrl = await uploadToS3(selectedFile, 'projects');
+          imageUrl = await uploadFile(selectedFile, 'projects');
           console.log('Image uploaded successfully:', imageUrl);
         } catch (uploadError) {
           console.error('S3 upload error:', uploadError);
@@ -207,7 +207,7 @@ const ProjectsManager: React.FC = () => {
         if (selectedFile && editingProject.imageUrl && editingProject.imageUrl !== imageUrl) {
           try {
             console.log('Deleting old image from S3:', editingProject.imageUrl);
-            await deleteFromS3(editingProject.imageUrl);
+            await deleteFile(editingProject.imageUrl);
           } catch (err) {
             console.error('Error deleting old image (non-critical):', err);
           }
@@ -249,7 +249,7 @@ const ProjectsManager: React.FC = () => {
 
       if (project.imageUrl) {
         try {
-          await deleteFromS3(project.imageUrl);
+          await deleteFile(project.imageUrl);
         } catch (err) {
           console.error('Error deleting image from S3:', err);
         }

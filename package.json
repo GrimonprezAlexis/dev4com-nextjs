@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "seed:project": "node scripts/seed-project.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.24.3",
@@ -17,6 +18,7 @@
     "critters": "^0.0.25",
     "dotenv": "^16.5.0",
     "firebase": "^10.8.1",
+    "firebase-admin": "^13.8.0",
     "framer-motion": "^10.18.0",
     "lucide-react": "^0.344.0",
     "next": "14.2.35",
